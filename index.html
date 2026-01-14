@@ -97,16 +97,38 @@ pre {
     text-align: center;
 }
 
-/* LINKS */
-a {
-    color: #00ff9c;
-    text-decoration: none;
-    display: inline-block;
-    margin: 6px 0;
+/* CONNECT – TELEGRAM */
+.connect-box {
+    border: 1px solid #00ff9c;
+    padding: 40px;
+    text-align: center;
+    transition: 0.3s;
 }
 
-a:hover {
-    text-shadow: 0 0 8px #00ff9c;
+.connect-box:hover {
+    background: #00ff9c11;
+    box-shadow: 0 0 25px #00ff9c33;
+}
+
+.telegram-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.connect-box a {
+    color: #00ff9c;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.connect-box a:hover {
+    text-shadow: 0 0 10px #00ff9c;
+}
+
+.tg-user {
+    margin-top: 15px;
+    color: #8affd1;
+    font-size: 16px;
 }
 
 /* FOOTER */
@@ -155,9 +177,18 @@ footer {
     <!-- CONNECT -->
     <section>
         <h2>> CONNECT</h2>
-        <a href="#">Telegram</a><br>
-        <a href="#">Discord</a><br>
-        <a href="#">GitHub</a>
+
+        <div class="connect-box">
+            <div class="telegram-icon">✈</div>
+
+            <a href="https://t.me/gaz46team7" target="_blank">
+                t.me/gaz46team7
+            </a>
+
+            <div class="tg-user">
+                Contact: @LIDER46TURK7
+            </div>
+        </div>
     </section>
 
     <!-- FOOTER -->
