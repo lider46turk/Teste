@@ -5,7 +5,7 @@
 <title>GAZ TEAM</title>
 
 <style>
-/* ==== GENEL ==== */
+/* ===== GENEL ===== */
 body {
     background:#050505;
     color:#e0e0e0;
@@ -14,6 +14,16 @@ body {
     overflow-x:hidden;
 }
 
+/* ===== MODE SYSTEM ===== */
+body.pc-mode {
+    font-size:16px;
+}
+
+body.phone-mode {
+    font-size:18px;
+}
+
+/* ===== CONTAINER ===== */
 .container {
     max-width:900px;
     margin:auto;
@@ -22,32 +32,62 @@ body {
     z-index:2;
 }
 
-.hidden { display:none; }
+body.phone-mode .container {
+    max-width:100%;
+    padding:30px 15px;
+}
 
-/* ==== BACKGROUND 01 EFFECT ==== */
+/* ===== BACKGROUND 01 ===== */
 .bg-binary {
     position:fixed;
     inset:0;
     z-index:1;
     pointer-events:none;
-    opacity:0.07;
+    opacity:0.06;
     color:#00ff9c;
     font-size:14px;
-    white-space:nowrap;
-    animation: move 20s linear infinite;
+    white-space:pre-wrap;
+    animation: scroll 25s linear infinite;
 }
 
-@keyframes move {
+@keyframes scroll {
     from { transform: translateY(0); }
     to { transform: translateY(-50%); }
 }
 
-/* ==== BAŞLIK ==== */
+/* ===== TOP BAR ===== */
+.top-bar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.mode-switch button {
+    background:#000;
+    border:1px solid #00ff9c;
+    color:#00ff9c;
+    padding:6px 10px;
+    cursor:pointer;
+    margin-left:6px;
+    font-family:inherit;
+}
+
+.mode-switch button:hover {
+    background:#00ff9c;
+    color:#000;
+}
+
+/* ===== BAŞLIK ===== */
 h1 {
     color:#00ff9c;
     letter-spacing:4px;
     text-align:center;
     margin-bottom:5px;
+}
+
+body.phone-mode h1 {
+    font-size:28px;
 }
 
 .subtitle {
@@ -56,7 +96,7 @@ h1 {
     margin-bottom:30px;
 }
 
-/* ==== MENÜ ==== */
+/* ===== MENU ===== */
 .menu {
     text-align:center;
     margin:30px 0;
@@ -67,45 +107,40 @@ h1 {
     color:#00ff9c;
     border:1px solid #00ff9c;
     padding:10px 18px;
-    margin:5px;
+    margin:6px;
     cursor:pointer;
     font-family:inherit;
-    transition:0.2s;
 }
 
-.menu button:hover {
-    background:#00ff9c;
-    color:#000;
+body.phone-mode .menu button {
+    padding:14px 22px;
+    font-size:18px;
 }
 
-/* ==== BÖLÜMLER ==== */
+/* ===== SECTION ===== */
 .section {
     border-left:3px solid #00ff9c;
     padding-left:20px;
     margin-bottom:40px;
 }
 
-.section h2 {
-    color:#00ff9c;
-    margin-bottom:10px;
+body.phone-mode .section {
+    border-left:2px solid #00ff9c;
+    padding-left:14px;
 }
 
-/* ==== DİL BUTONLARI ==== */
+/* ===== LANGUAGE ===== */
 .lang-btn {
-    margin-right:10px;
+    margin-right:12px;
     cursor:pointer;
     color:#00cfff;
 }
 
-.lang-btn:hover {
-    text-decoration:underline;
-}
+/* ===== MODDING ===== */
+.game.active { color:#00ff4c; }
+.game.inactive { color:#ff3c3c; }
 
-/* ==== MODDING ==== */
-.game.active { color:#00ff4c; margin-bottom:6px; }
-.game.inactive { color:#ff3c3c; margin-bottom:6px; }
-
-/* ==== PROJECT ==== */
+/* ===== PROJECT ===== */
 .project {
     border:1px solid #222;
     padding:15px;
@@ -113,18 +148,7 @@ h1 {
     background:#0b0b0b;
 }
 
-.project a {
-    color:#00ff9c;
-    text-decoration:none;
-    border-bottom:1px dashed #00ff9c;
-}
-
-.project a:hover {
-    color:#fff;
-    border-color:#fff;
-}
-
-/* ==== GERİ BUTONU ==== */
+/* ===== BACK BUTTON ===== */
 .back {
     margin-top:30px;
 }
@@ -133,16 +157,19 @@ h1 {
     background:none;
     border:1px solid #444;
     color:#888;
-    padding:8px 14px;
+    padding:10px 16px;
     cursor:pointer;
 }
 
-.back button:hover {
-    color:#00ff9c;
-    border-color:#00ff9c;
+body.phone-mode .back button {
+    padding:14px 20px;
+    font-size:18px;
 }
 
-/* ==== FOOTER ==== */
+/* ===== HIDDEN ===== */
+.hidden { display:none; }
+
+/* ===== FOOTER ===== */
 footer {
     text-align:center;
     color:#555;
@@ -152,18 +179,21 @@ footer {
 </style>
 </head>
 
-<body>
+<body class="pc-mode">
 
-<!-- BACKGROUND 01 -->
 <div class="bg-binary">
-010101001010010101010010101010010101001010101010010101001010101001010101001010101001010101001010
+010101001010101010010101001010101010010101001010101001010101001010101010010101
 </div>
 
 <div class="container">
 
-<!-- HOME -->
-<div id="home">
-<div>> ACCESS GRANTED</div>
+<div class="top-bar">
+    <div>> ACCESS GRANTED</div>
+    <div class="mode-switch">
+        <button onclick="setMode('pc')">💻 PC</button>
+        <button onclick="setMode('phone')">📱 PHONE</button>
+    </div>
+</div>
 
 <h1>GAZ TEAM</h1>
 <div class="subtitle">underground digital group</div>
@@ -174,7 +204,8 @@ footer {
     <button onclick="showSection('projects')">PROJECTS</button>
 </div>
 
-<div class="section">
+<!-- HOME -->
+<div id="home" class="section">
 <h2>> WHO WE ARE</h2>
 
 <div>
@@ -184,59 +215,16 @@ footer {
 <span class="lang-btn" onclick="setLang('ru')">RU</span>
 </div>
 
-<pre id="text-en">
-// origin.log
-GAZ TEAM started inside SWTeam.
-The journey began with Free Fire.
-Simple Sandbox 2 changed everything.
-
-From 2021 to 2026 we evolved.
-Today: 300+ active members.
-
-More mods. More games.
-Stay tuned.
-</pre>
-
-<pre id="text-tr" class="hidden">
-GAZ TEAM, SWTeam içinde başladı.
-Free Fire ile doğdu.
-Simple Sandbox 2 ile yol ayrıldı.
-
-2021–2026 arası tecrübe kazandık.
-Bugün 300+ aktif üyemiz var.
-
-Devamı geliyor.
-</pre>
-
-<pre id="text-pt" class="hidden">
-GAZ TEAM nasceu no SWTeam.
-Começou com Free Fire.
-Simple Sandbox 2 mudou tudo.
-
-De 2021 a 2026 evoluímos.
-Hoje somos mais de 300 membros.
-</pre>
-
-<pre id="text-ru" class="hidden">
-GAZ TEAM начался в SWTeam.
-Все началось с Free Fire.
-Simple Sandbox 2 изменил всё.
-
-С 2021 по 2026 мы росли.
-Сегодня более 300 участников.
-</pre>
-
-</div>
+<pre id="text-en">GAZ TEAM started inside SWTeam...</pre>
+<pre id="text-tr" class="hidden">GAZ TEAM, SWTeam içinde başladı...</pre>
+<pre id="text-pt" class="hidden">GAZ TEAM nasceu no SWTeam...</pre>
+<pre id="text-ru" class="hidden">GAZ TEAM начался в SWTeam...</pre>
 </div>
 
-<!-- MODDING LAB -->
+<!-- MODDING -->
 <div id="modding" class="hidden section">
 <h2>> MODDING LAB</h2>
-
 <div class="game active">✔ ACTIVE — Simple Sandbox 2</div>
-<div class="game inactive">✖ PAST — Standoff 2</div>
-<div class="game inactive">✖ PAST — FWD</div>
-<div class="game inactive">✖ PAST — Blockfield</div>
 <div class="game inactive">✖ PAST — Free Fire</div>
 
 <div class="back">
@@ -249,8 +237,7 @@ Simple Sandbox 2 изменил всё.
 <h2>> PROJECTS</h2>
 
 <div class="project">
-<b>Simple Sandbox 2 – OctoHook</b><br>
-Status: In progress<br><br>
+<b>SSB2 – OctoHook</b><br><br>
 <a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">
 Download Mod
 </a>
@@ -278,6 +265,11 @@ function setLang(lang){
         document.getElementById("text-"+l).classList.add("hidden");
     });
     document.getElementById("text-"+lang).classList.remove("hidden");
+}
+
+function setMode(mode){
+    document.body.classList.remove("pc-mode","phone-mode");
+    document.body.classList.add(mode+"-mode");
 }
 </script>
 
