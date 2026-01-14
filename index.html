@@ -1,141 +1,115 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>GAZ TEAM</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    body {
+        background-color: #050505;
+        color: #e0e0e0;
+        font-family: "Courier New", monospace;
+        margin: 0;
+        padding: 0;
+    }
 
-body {
-    background: #000;
-    color: #00ff9c;
-    font-family: 'Share Tech Mono', monospace;
-}
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 40px 20px;
+    }
 
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 80px 20px;
-}
+    h1 {
+        text-align: center;
+        color: #00ff9c;
+        letter-spacing: 4px;
+        margin-bottom: 5px;
+    }
 
-/* HERO */
-.hero {
-    text-align: center;
-    margin-bottom: 120px;
-}
+    .subtitle {
+        text-align: center;
+        color: #888;
+        margin-bottom: 40px;
+    }
 
-.hero .terminal {
-    opacity: 0.7;
-    margin-bottom: 20px;
-}
+    .section {
+        border-left: 3px solid #00ff9c;
+        padding-left: 20px;
+        margin-bottom: 50px;
+    }
 
-.hero h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 72px;
-    letter-spacing: 6px;
-}
+    .section h2 {
+        color: #00ff9c;
+        margin-bottom: 15px;
+    }
 
-.subtitle {
-    color: #8affd1;
-    margin-top: 10px;
-}
+    .text {
+        line-height: 1.6;
+        color: #ccc;
+    }
 
-/* SECTIONS */
-section {
-    margin-bottom: 120px;
-}
+    .games {
+        margin-top: 15px;
+    }
 
-h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
-}
+    .game {
+        margin-bottom: 8px;
+    }
 
-/* LANGUAGE BUTTONS */
-.lang-buttons {
-    margin-bottom: 20px;
-}
+    .active {
+        color: #00ff4c; /* yeşil */
+    }
 
-.lang-buttons button {
-    background: transparent;
-    border: 1px solid #00ff9c;
-    color: #00ff9c;
-    padding: 6px 12px;
-    margin-right: 8px;
-    cursor: pointer;
-    font-family: inherit;
-}
+    .inactive {
+        color: #ff3c3c; /* kırmızı */
+    }
 
-.lang-buttons button:hover {
-    background: #00ff9c22;
-}
+    .projects {
+        margin-top: 15px;
+    }
 
-/* TEXT */
-pre {
-    white-space: pre-wrap;
-    line-height: 1.7;
-    color: #b6ffe6;
-}
+    .project {
+        border: 1px solid #222;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #0b0b0b;
+    }
 
-/* CARDS */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
-    margin-top: 40px;
-}
+    .project h3 {
+        margin: 0 0 5px;
+        color: #00cfff;
+    }
 
-.card {
-    border: 1px solid #00ff9c;
-    padding: 30px;
-    text-align: center;
-}
+    .status {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
 
-/* CONNECT – TELEGRAM */
-.connect-box {
-    border: 1px solid #00ff9c;
-    padding: 40px;
-    text-align: center;
-    transition: 0.3s;
-}
+    .completed {
+        color: #00ff4c;
+    }
 
-.connect-box:hover {
-    background: #00ff9c11;
-    box-shadow: 0 0 25px #00ff9c33;
-}
+    .progress {
+        color: #ffaa00;
+    }
 
-.telegram-icon {
-    font-size: 40px;
-    margin-bottom: 15px;
-}
+    .mod-link {
+        color: #00ff9c;
+        text-decoration: none;
+        border-bottom: 1px dashed #00ff9c;
+    }
 
-.connect-box a {
-    color: #00ff9c;
-    text-decoration: none;
-    font-size: 20px;
-}
+    .mod-link:hover {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
 
-.connect-box a:hover {
-    text-shadow: 0 0 10px #00ff9c;
-}
-
-.tg-user {
-    margin-top: 15px;
-    color: #8affd1;
-    font-size: 16px;
-}
-
-/* FOOTER */
-footer {
-    text-align: center;
-    opacity: 0.5;
-}
+    footer {
+        text-align: center;
+        color: #555;
+        margin-top: 60px;
+        font-size: 13px;
+    }
 </style>
 </head>
 
@@ -143,147 +117,83 @@ footer {
 
 <div class="container">
 
-    <!-- HERO -->
-    <div class="hero">
-        <div class="terminal">> ACCESS GRANTED</div>
-        <h1>GAZ TEAM</h1>
-        <div class="subtitle">underground digital group</div>
-    </div>
+    <h1>GAZ TEAM</h1>
+    <div class="subtitle">underground digital modding group</div>
 
-    <!-- WHO WE ARE -->
-    <section>
-        <h2>> WHO WE ARE</h2>
-
-        <div class="lang-buttons">
-            <button onclick="setLang('en')">EN</button>
-            <button onclick="setLang('tr')">TR</button>
-            <button onclick="setLang('pt')">PT-BR</button>
-            <button onclick="setLang('ru')">RU</button>
+    <!-- MODDING LAB -->
+    <div class="section">
+        <h2>> MODDING LAB</h2>
+        <div class="text">
+            We modify games, systems and mechanics beyond their limits.<br>
+            Not everything is touched. Not everything is allowed.
         </div>
 
-        <pre id="who-text"></pre>
-    </section>
-
-    <!-- OPERATIONS -->
-    <section>
-        <h2>> OPERATIONS</h2>
-        <div class="cards">
-            <div class="card">INTELLIGENCE</div>
-            <div class="card">DIGITAL POWER</div>
-            <div class="card">OPERATIONS</div>
-        </div>
-    </section>
-
-    <!-- CONNECT -->
-    <section>
-        <h2>> CONNECT</h2>
-
-        <div class="connect-box">
-            <div class="telegram-icon">✈</div>
-
-            <a href="https://t.me/gaz46team7" target="_blank">
-                t.me/gaz46team7
-            </a>
-
-            <div class="tg-user">
-                Contact: @LIDER46TURK7
+        <div class="games">
+            <div class="game active">
+                ✔ ACTIVE — Simple Sandbox 2
+            </div>
+            <div class="game inactive">
+                ✖ PAST — Standoff 2
+            </div>
+            <div class="game inactive">
+                ✖ PAST — FWD
+            </div>
+            <div class="game inactive">
+                ✖ PAST — Blockfield
+            </div>
+            <div class="game inactive">
+                ✖ PAST — Free Fire
             </div>
         </div>
-    </section>
 
-    <!-- FOOTER -->
+        <div class="text" style="margin-top:15px;">
+            <b>What we modify:</b> gameplay logic, limits, mechanics, experimental features.<br>
+            <b>What we don’t:</b> private data, user accounts, paid content abuse.
+        </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="section">
+        <h2>> PROJECTS</h2>
+
+        <div class="projects">
+
+            <div class="project">
+                <h3>Simple Sandbox 2 – Core Mod</h3>
+                <div class="status progress">Status: In progress</div>
+                <div class="text">
+                    Advanced gameplay modification for Simple Sandbox 2.
+                </div>
+                <div style="margin-top:8px;">
+                    Mod URL: 
+                    <a class="mod-link" href="#" target="_blank">
+                        ADD_LINK_HERE
+                    </a>
+                </div>
+            </div>
+
+            <div class="project">
+                <h3>Free Fire – Experimental Mod</h3>
+                <div class="status completed">Status: Completed</div>
+                <div class="text">
+                    Early-stage modding experiments during SW Team era.
+                </div>
+                <div style="margin-top:8px;">
+                    Archive URL: 
+                    <a class="mod-link" href="#" target="_blank">
+                        ADD_LINK_HERE
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <footer>
-        <p>> STATUS: ONLINE</p>
-        <p>© GAZ TEAM</p>
+        © GAZ TEAM — STATUS: ONLINE
     </footer>
 
 </div>
-
-<script>
-const texts = {
-en: `// origin.log
-
-GAZ TEAM started as a collective of modders inside the SWTeam group.
-The journey began with Free Fire — our first testing ground.
-
-While exploring new possibilities, we discovered Simple Sandbox 2.
-At that point, our path diverged.
-We separated from SWTeam and continued independently.
-
-GAZ TEAM was formed.
-
-From 2021 to 2026, we focused on modding, experimenting, and learning.
-Slow progress. Real experience.
-
-Today, GAZ TEAM operates with over 300 active members.
-More games. More mods.
-
-Stay tuned.`,
-
-tr: `// origin.log
-
-GAZ TEAM, ilk olarak SWTeam grubu içerisinde ortak modlama çalışmalarıyla başladı.
-Macera Free Fire ile başladı — ilk deneme alanımızdı.
-
-Yeni imkanları keşfederken Simple Sandbox 2 ile tanıştık.
-Bu noktada yolumuz ayrıldı.
-SWTeam'den ayrıldık ve bağımsız olarak devam ettik.
-
-GAZ TEAM kurulmuştu.
-
-2021-2026 yılları arasında modlama yaptık, denedik, öğrendik.
-Yavaş ilerleme. Gerçek tecrübe.
-
-Bugün GAZ TEAM, 300+ aktif üyeye sahiptir.
-Daha fazla oyun. Daha fazla mod.
-
-Bizi izlemeye devam edin.`,
-
-pt: `// origin.log
-
-GAZ TEAM começou como um grupo de modders dentro do SWTeam.
-A jornada começou com Free Fire — nosso primeiro campo de testes.
-
-Explorando novas possibilidades, descobrimos o Simple Sandbox 2.
-Nesse ponto, nossos caminhos se separaram.
-Saímos do SWTeam e seguimos de forma independente.
-
-GAZ TEAM foi criado.
-
-De 2021 a 2026, focamos em modding, testes e aprendizado.
-Progresso lento. Experiência real.
-
-Hoje, o GAZ TEAM possui mais de 300 membros ativos.
-Mais jogos. Mais mods.
-
-Aguardem.`,
-
-ru: `// origin.log
-
-GAZ TEAM началась как группа моддеров внутри SWTeam.
-Путь начался с Free Fire — нашей первой тестовой площадки.
-
-Изучая новые возможности, мы открыли Simple Sandbox 2.
-В этот момент наш путь изменился.
-Мы покинули SWTeam и продолжили самостоятельно.
-
-Так появилась GAZ TEAM.
-
-С 2021 по 2026 год мы занимались моддингом, экспериментировали и учились.
-Медленный рост. Реальный опыт.
-
-Сегодня GAZ TEAM насчитывает более 300 активных участников.
-Больше игр. Больше модов.
-
-Оставайтесь с нами.`
-};
-
-function setLang(lang) {
-    document.getElementById("who-text").textContent = texts[lang];
-}
-
-setLang('en');
-</script>
 
 </body>
 </html>
