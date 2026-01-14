@@ -1,66 +1,135 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>GAZ TEAM</title>
+<meta charset="UTF-8">
+<title>GAZ TEAM</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #00ff9c;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 80px 20px;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    margin-bottom: 120px;
+}
+
+.hero .terminal {
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 72px;
+    letter-spacing: 6px;
+}
+
+.subtitle {
+    color: #8affd1;
+    margin-top: 10px;
+}
+
+/* SECTIONS */
+section {
+    margin-bottom: 120px;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.8;
+    color: #b6ffe6;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.card {
+    border: 1px solid #00ff9c;
+    padding: 30px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background: #00ff9c22;
+    transform: translateY(-6px);
+}
+
+/* LINKS */
+a {
+    color: #00ff9c;
+    text-decoration: none;
+    display: inline-block;
+    margin: 6px 0;
+}
+
+a:hover {
+    text-shadow: 0 0 8px #00ff9c;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    opacity: 0.5;
+}
+</style>
 </head>
-    <div style="position:fixed;top:10px;right:10px;
-background:red;color:white;
-padding:10px;z-index:9999;">
-NEW VERSION LOADED
-</div>
-    <body>
 
-    <!-- HERO -->
+<body>
+
+<div class="container">
+
     <div class="hero">
         <div class="terminal">> ACCESS GRANTED</div>
         <h1>GAZ TEAM</h1>
-        <p class="subtitle">underground digital group</p>
+        <div class="subtitle">underground digital group</div>
     </div>
 
-    <!-- WHO -->
     <section>
         <h2>> WHO WE ARE</h2>
         <p>
-            GAZ TEAM is an underground digital collective.<br>
-            Precision. Chaos. Control.
+            We are GAZ TEAM.<br>
+            Digital chaos.<br>
+            Controlled intelligence.
         </p>
     </section>
 
-    <!-- DIVISIONS -->
-    <section>
-        <h2>> DIVISIONS</h2>
-        <div class="cards">
-            <div class="card">CYBER INTEL</div>
-            <div class="card">OPS UNIT</div>
-            <div class="card">DIGITAL WARFARE</div>
-        </div>
-    </section>
-
-    <!-- OPERATIONS -->
     <section>
         <h2>> OPERATIONS</h2>
         <div class="cards">
             <div class="card">INTELLIGENCE</div>
-            <div class="card">DATA CONTROL</div>
-            <div class="card">NETWORK OPS</div>
+            <div class="card">DIGITAL POWER</div>
+            <div class="card">OPERATIONS</div>
         </div>
     </section>
 
-    <!-- ARSENAL -->
-    <section>
-        <h2>> ARSENAL</h2>
-        <div class="cards">
-            <div class="card">OSINT</div>
-            <div class="card">AUTOMATION</div>
-            <div class="card">SYSTEM ACCESS</div>
-        </div>
-    </section>
-
-    <!-- CONNECT -->
     <section>
         <h2>> CONNECT</h2>
         <a href="#">Telegram</a><br>
@@ -68,11 +137,12 @@ NEW VERSION LOADED
         <a href="#">GitHub</a>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <p>> STATUS: ONLINE</p>
         <p>© GAZ TEAM</p>
     </footer>
+
+</div>
 
 </body>
 </html>
