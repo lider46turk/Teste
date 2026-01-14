@@ -102,3 +102,19 @@ footer {
     color: #4d7f6b;
     font-size: 14px;
 }
+/* KATEGORI BAŞLIKLARI VURGULU */
+h2::before {
+    content: "[ ";
+    color: #00ff9c;
+}
+h2::after {
+    content: " ]";
+    color: #00ff9c;
+}
+
+/* KARTLAR DAHA AGRESIF */
+.card {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
