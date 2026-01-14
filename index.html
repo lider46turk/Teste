@@ -5,195 +5,208 @@
 <title>GAZ TEAM</title>
 
 <style>
-    body {
-        background-color: #050505;
-        color: #e0e0e0;
-        font-family: "Courier New", monospace;
-        margin: 0;
-        padding: 0;
-    }
+body {
+    background:#050505;
+    color:#e0e0e0;
+    font-family:Courier New, monospace;
+    margin:0;
+}
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 40px 20px;
-    }
+.container {
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+}
 
-    h1 {
-        text-align: center;
-        color: #00ff9c;
-        letter-spacing: 4px;
-        margin-bottom: 5px;
-    }
+.hidden { display:none; }
 
-    .subtitle {
-        text-align: center;
-        color: #888;
-        margin-bottom: 40px;
-    }
+h1 {
+    color:#00ff9c;
+    letter-spacing:4px;
+    text-align:center;
+}
 
-    .section {
-        border-left: 3px solid #00ff9c;
-        padding-left: 20px;
-        margin-bottom: 50px;
-    }
+.subtitle {
+    text-align:center;
+    color:#888;
+    margin-bottom:40px;
+}
 
-    .section h2 {
-        color: #00ff9c;
-        margin-bottom: 15px;
-    }
+.section {
+    border-left:3px solid #00ff9c;
+    padding-left:20px;
+    margin-bottom:40px;
+}
 
-    .text {
-        line-height: 1.6;
-        color: #ccc;
-    }
+.menu {
+    text-align:center;
+    margin:40px 0;
+}
 
-    .games {
-        margin-top: 15px;
-    }
+.menu button {
+    background:#000;
+    color:#00ff9c;
+    border:1px solid #00ff9c;
+    padding:10px 18px;
+    margin:5px;
+    cursor:pointer;
+    font-family:inherit;
+}
 
-    .game {
-        margin-bottom: 8px;
-    }
+.menu button:hover {
+    background:#00ff9c;
+    color:#000;
+}
 
-    .active {
-        color: #00ff4c; /* yeşil */
-    }
+.lang-btn {
+    margin-right:10px;
+    cursor:pointer;
+    color:#00cfff;
+}
 
-    .inactive {
-        color: #ff3c3c; /* kırmızı */
-    }
+.game.active { color:#00ff4c; }
+.game.inactive { color:#ff3c3c; }
 
-    .projects {
-        margin-top: 15px;
-    }
+.project {
+    border:1px solid #222;
+    padding:15px;
+    margin-bottom:15px;
+    background:#0b0b0b;
+}
 
-    .project {
-        border: 1px solid #222;
-        padding: 15px;
-        margin-bottom: 15px;
-        background: #0b0b0b;
-    }
-
-    .project h3 {
-        margin: 0 0 5px;
-        color: #00cfff;
-    }
-
-    .status {
-        font-size: 14px;
-        margin-bottom: 8px;
-    }
-
-    .completed {
-        color: #00ff4c;
-    }
-
-    .progress {
-        color: #ffaa00;
-    }
-
-    .mod-link {
-        color: #00ff9c;
-        text-decoration: none;
-        border-bottom: 1px dashed #00ff9c;
-    }
-
-    .mod-link:hover {
-        color: #ffffff;
-        border-color: #ffffff;
-    }
-
-    footer {
-        text-align: center;
-        color: #555;
-        margin-top: 60px;
-        font-size: 13px;
-    }
+footer {
+    text-align:center;
+    color:#555;
+    margin-top:60px;
+    font-size:13px;
+}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-    <h1>GAZ TEAM</h1>
-    <div class="subtitle">underground digital modding group</div>
+<!-- ANA SAYFA -->
+<div id="home">
 
-    <!-- MODDING LAB -->
-    <div class="section">
-        <h2>> MODDING LAB</h2>
-        <div class="text">
-            We modify games, systems and mechanics beyond their limits.<br>
-            Not everything is touched. Not everything is allowed.
-        </div>
+<div>> ACCESS GRANTED</div>
 
-        <div class="games">
-            <div class="game active">
-                ✔ ACTIVE — Simple Sandbox 2
-            </div>
-            <div class="game inactive">
-                ✖ PAST — Standoff 2
-            </div>
-            <div class="game inactive">
-                ✖ PAST — FWD
-            </div>
-            <div class="game inactive">
-                ✖ PAST — Blockfield
-            </div>
-            <div class="game inactive">
-                ✖ PAST — Free Fire
-            </div>
-        </div>
+<h1>GAZ TEAM</h1>
+<div class="subtitle">underground digital group</div>
 
-        <div class="text" style="margin-top:15px;">
-            <b>What we modify:</b> gameplay logic, limits, mechanics, experimental features.<br>
-            <b>What we don’t:</b> private data, user accounts, paid content abuse.
-        </div>
-    </div>
+<div class="menu">
+    <button onclick="showSection('home')">HOME</button>
+    <button onclick="showSection('modding')">MODDING LAB</button>
+    <button onclick="showSection('projects')">PROJECTS</button>
+</div>
 
-    <!-- PROJECTS -->
-    <div class="section">
-        <h2>> PROJECTS</h2>
+<div class="section">
+<h2>> WHO WE ARE</h2>
 
-        <div class="projects">
+<div>
+<span class="lang-btn" onclick="setLang('en')">EN</span>
+<span class="lang-btn" onclick="setLang('tr')">TR</span>
+<span class="lang-btn" onclick="setLang('pt')">PT-BR</span>
+<span class="lang-btn" onclick="setLang('ru')">RU</span>
+</div>
 
-            <div class="project">
-                <h3>Simple Sandbox 2 – Core Mod</h3>
-                <div class="status progress">Status: In progress</div>
-                <div class="text">
-                    Advanced gameplay modification for Simple Sandbox 2.
-                </div>
-                <div style="margin-top:8px;">
-                    Mod URL: 
-                    <a class="mod-link" href="#" target="_blank">
-                        ADD_LINK_HERE
-                    </a>
-                </div>
-            </div>
+<pre id="text-en">
+// origin.log
+GAZ TEAM started inside SWTeam.
+The journey began with Free Fire.
+Later, Simple Sandbox 2 changed everything.
 
-            <div class="project">
-                <h3>Free Fire – Experimental Mod</h3>
-                <div class="status completed">Status: Completed</div>
-                <div class="text">
-                    Early-stage modding experiments during SW Team era.
-                </div>
-                <div style="margin-top:8px;">
-                    Archive URL: 
-                    <a class="mod-link" href="#" target="_blank">
-                        https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html
-                    </a>
-                </div>
-            </div>
+GAZ TEAM was formed.
+From 2021 to 2026 we learned, tested, evolved.
+Today: 300+ active members.
 
-        </div>
-    </div>
+More mods. More games.
+Stay tuned.
+</pre>
 
-    <footer>
-        © GAZ TEAM — STATUS: ONLINE
-    </footer>
+<pre id="text-tr" class="hidden">
+GAZ TEAM, SWTeam içinde modlama yaparak başladı.
+Macera Free Fire ile başladı.
+Simple Sandbox 2 her şeyi değiştirdi.
+
+GAZ TEAM kuruldu.
+2021–2026 arası tecrübe kazandık.
+Bugün 300+ aktif üyemiz var.
+
+Daha fazlası geliyor.
+</pre>
+
+<pre id="text-pt" class="hidden">
+GAZ TEAM começou dentro do SWTeam.
+Tudo começou com Free Fire.
+Depois, Simple Sandbox 2 mudou tudo.
+
+GAZ TEAM nasceu.
+De 2021 a 2026 evoluímos juntos.
+Hoje somos mais de 300 membros ativos.
+</pre>
+
+<pre id="text-ru" class="hidden">
+GAZ TEAM начался в SWTeam.
+Все началось с Free Fire.
+Simple Sandbox 2 изменил всё.
+
+GAZ TEAM был создан.
+С 2021 по 2026 мы развивались.
+Сейчас более 300 участников.
+</pre>
 
 </div>
+
+</div>
+
+<!-- MODDING LAB -->
+<div id="modding" class="hidden">
+<h2>> MODDING LAB</h2>
+
+<div class="game active">✔ ACTIVE — Simple Sandbox 2</div>
+<div class="game inactive">✖ PAST — Standoff 2</div>
+<div class="game inactive">✖ PAST — FWD</div>
+<div class="game inactive">✖ PAST — Blockfield</div>
+<div class="game inactive">✖ PAST — Free Fire</div>
+</div>
+
+<!-- PROJECTS -->
+<div id="projects" class="hidden">
+<h2>> PROJECTS</h2>
+
+<div class="project">
+<b>SSB2 Core Mod</b><br>
+Status: In progress<br>
+Link: <a href="#" target="_blank">ADD_LINK_HERE</a>
+</div>
+
+<div class="project">
+<b>Free Fire Experimental</b><br>
+Status: Completed<br>
+Link: <a href="#" target="_blank">ADD_LINK_HERE</a>
+</div>
+</div>
+
+<footer>© GAZ TEAM — STATUS: ONLINE</footer>
+
+</div>
+
+<script>
+function showSection(id){
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("modding").classList.add("hidden");
+    document.getElementById("projects").classList.add("hidden");
+    document.getElementById(id).classList.remove("hidden");
+}
+
+function setLang(lang){
+    ["en","tr","pt","ru"].forEach(l=>{
+        document.getElementById("text-"+l).classList.add("hidden");
+    });
+    document.getElementById("text-"+lang).classList.remove("hidden");
+}
+</script>
 
 </body>
 </html>
