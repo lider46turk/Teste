@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>GAZ TEAM</title>
 
+<!-- Chart.js için -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 /* ===== GENEL ===== */
 body {
@@ -15,13 +18,8 @@ body {
 }
 
 /* ===== MODE SYSTEM ===== */
-body.pc-mode {
-    font-size:16px;
-}
-
-body.phone-mode {
-    font-size:18px;
-}
+body.pc-mode { font-size:16px; }
+body.phone-mode { font-size:18px; }
 
 /* ===== CONTAINER ===== */
 .container {
@@ -31,11 +29,7 @@ body.phone-mode {
     position:relative;
     z-index:2;
 }
-
-body.phone-mode .container {
-    max-width:100%;
-    padding:30px 15px;
-}
+body.phone-mode .container { max-width:100%; padding:30px 15px; }
 
 /* ===== BACKGROUND ===== */
 .bg-binary {
@@ -49,11 +43,7 @@ body.phone-mode .container {
     white-space:pre-wrap;
     animation: scroll 25s linear infinite;
 }
-
-@keyframes scroll {
-    from { transform: translateY(0); }
-    to { transform: translateY(-50%); }
-}
+@keyframes scroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
 
 /* ===== TOP BAR ===== */
 .top-bar {
@@ -62,7 +52,6 @@ body.phone-mode .container {
     align-items:center;
     margin-bottom:20px;
 }
-
 .mode-switch button {
     background:#000;
     border:1px solid #00ff9c;
@@ -72,36 +61,18 @@ body.phone-mode .container {
     margin-left:6px;
     font-family:inherit;
 }
-
-.mode-switch button:hover {
-    background:#00ff9c;
-    color:#000;
-}
+.mode-switch button:hover { background:#00ff9c; color:#000; }
 
 /* ===== BAŞLIK ===== */
-h1 {
-    color:#00ff9c;
-    letter-spacing:4px;
-    text-align:center;
-    margin-bottom:5px;
-}
-
-body.phone-mode h1 {
-    font-size:28px;
-}
-
-.subtitle {
-    text-align:center;
-    color:#888;
-    margin-bottom:30px;
-}
+h1 { color:#00ff9c; letter-spacing:4px; text-align:center; margin-bottom:5px; }
+body.phone-mode h1 { font-size:28px; }
+.subtitle { text-align:center; color:#888; margin-bottom:30px; }
 
 /* ===== MENU ===== */
 .menu {
     text-align:center;
     margin:30px 0;
 }
-
 .menu button {
     background:#000;
     color:#00ff9c;
@@ -111,11 +82,8 @@ body.phone-mode h1 {
     cursor:pointer;
     font-family:inherit;
 }
-
-body.phone-mode .menu button {
-    padding:14px 22px;
-    font-size:18px;
-}
+body.phone-mode .menu button { padding:14px 22px; font-size:18px; }
+.menu button:hover { background:#00ff9c; color:#000; }
 
 /* ===== SECTION ===== */
 .section {
@@ -123,18 +91,10 @@ body.phone-mode .menu button {
     padding-left:20px;
     margin-bottom:40px;
 }
-
-body.phone-mode .section {
-    border-left:2px solid #00ff9c;
-    padding-left:14px;
-}
+body.phone-mode .section { border-left:2px solid #00ff9c; padding-left:14px; }
 
 /* ===== LANGUAGE ===== */
-.lang-btn {
-    margin-right:12px;
-    cursor:pointer;
-    color:#00cfff;
-}
+.lang-btn { margin-right:12px; cursor:pointer; color:#00cfff; }
 
 /* ===== MODDING ===== */
 .game.active { color:#00ff4c; }
@@ -152,7 +112,6 @@ body.phone-mode .section {
 .back {
     margin-top:30px;
 }
-
 .back button {
     background:none;
     border:1px solid #444;
@@ -160,57 +119,37 @@ body.phone-mode .section {
     padding:10px 16px;
     cursor:pointer;
 }
-
-body.phone-mode .back button {
-    padding:14px 20px;
-    font-size:18px;
-}
+body.phone-mode .back button { padding:14px 20px; font-size:18px; }
 
 /* ===== HIDDEN ===== */
 .hidden { display:none; }
 
 /* ===== FOOTER ===== */
-footer {
-    text-align:center;
-    color:#555;
-    margin-top:60px;
-    font-size:13px;
-}
+footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 
 /* ===== ADMIN PANEL ===== */
 #admin-panel {
     background:#111;
     border:1px solid #00ff9c;
     padding:20px;
+    margin-top:15px;
 }
-#admin-panel h2 {
-    color:#00ff9c;
+#admin-panel h2 { color:#00ff9c; margin-bottom:15px; }
+#admin-panel table {
+    width:100%;
+    border-collapse:collapse;
     margin-bottom:15px;
 }
-#admin-panel pre {
-    background:#000;
-    padding:10px;
-    overflow-x:auto;
-    max-height:300px;
-}
-#admin-password {
-    background:#000;
+#admin-panel th, #admin-panel td {
     border:1px solid #00ff9c;
-    color:#0f0;
-    padding:6px 10px;
-    margin-right:6px;
+    padding:6px;
+    text-align:left;
+    font-size:12px;
 }
-#admin-login-btn {
-    background:#000;
-    border:1px solid #00ff9c;
-    color:#0f0;
-    padding:6px 10px;
-    cursor:pointer;
-}
-#admin-login-btn:hover {
-    background:#0f0;
-    color:#000;
-}
+#admin-panel th { background:#000; }
+#admin-panel input { padding:6px; margin:6px 0; background:#000; border:1px solid #00ff9c; color:#0f0; }
+#admin-login-btn { background:#000; border:1px solid #00ff9c; color:#0f0; padding:6px 10px; cursor:pointer; }
+#admin-login-btn:hover { background:#0f0; color:#000; }
 </style>
 </head>
 
@@ -296,7 +235,26 @@ Download Mod
 
 <div id="admin-panel" class="hidden">
 <h2>Visitor Logs</h2>
-<pre id="log-output">Loading...</pre>
+
+<label>Filter by Device:</label>
+<select id="filter-device">
+<option value="all">All</option>
+<option value="PC">PC</option>
+<option value="PHONE">PHONE</option>
+</select>
+
+<label>Search Browser:</label>
+<input type="text" id="search-browser" placeholder="Tarayıcı ara...">
+
+<table>
+<thead>
+<tr><th>Time</th><th>Device</th><th>Browser</th><th>Language</th></tr>
+</thead>
+<tbody id="log-table-body"></tbody>
+</table>
+
+<canvas id="device-chart" height="150"></canvas>
+<p>Active Users (Last 5 min): <span id="active-count">0</span></p>
 </div>
 
 <div class="back">
@@ -335,32 +293,74 @@ function setMode(mode){
     const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
     const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const device = isPhone ? "PHONE" : "PC";
-
     const log = {
         device: device,
         browser: navigator.userAgent.split(") ")[0] + ")",
         language: navigator.language,
-        time: new Date().toLocaleString()
+        time: new Date().toLocaleString(),
+        timestamp: Date.now()
     };
-
     logs.push(log);
-
-    if(logs.length > 200) logs.shift();
+    if(logs.length > 500) logs.shift();
     localStorage.setItem("gaz_logs", JSON.stringify(logs));
 })();
 
-// Admin panel login
+// Admin login ve panel
 document.getElementById("admin-login-btn").addEventListener("click", function(){
     const pwd = document.getElementById("admin-password").value;
-    const correctPassword = "gazadmin"; // Şifreyi değiştirebilirsin
+    const correctPassword = "gazadmin";
     if(pwd === correctPassword){
-        document.getElementById("admin-panel").classList.remove("hidden");
-        const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
-        document.getElementById("log-output").textContent = logs.map(l=>JSON.stringify(l)).join("\n");
-    } else {
-        alert("Şifre yanlış!");
-    }
+        const panel = document.getElementById("admin-panel");
+        panel.classList.remove("hidden");
+        renderLogs();
+        renderChart();
+        updateActiveUsers();
+    } else { alert("Şifre yanlış!"); }
 });
+
+// Logları tabloya yazdır
+function renderLogs(){
+    const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
+    const tbody = document.getElementById("log-table-body");
+    tbody.innerHTML="";
+    const filterDevice = document.getElementById("filter-device").value.toUpperCase();
+    const searchBrowser = document.getElementById("search-browser").value.toLowerCase();
+    logs.forEach(l=>{
+        if((filterDevice==="ALL" || l.device===filterDevice) &&
+           (l.browser.toLowerCase().includes(searchBrowser))){
+            const tr = document.createElement("tr");
+            tr.innerHTML=`<td>${l.time}</td><td>${l.device}</td><td>${l.browser}</td><td>${l.language}</td>`;
+            tbody.appendChild(tr);
+        }
+    });
+}
+document.getElementById("filter-device").addEventListener("change", renderLogs);
+document.getElementById("search-browser").addEventListener("input", renderLogs);
+
+// Grafik
+function renderChart(){
+    const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
+    const pcCount = logs.filter(l=>l.device==="PC").length;
+    const phoneCount = logs.filter(l=>l.device==="PHONE").length;
+    const ctx = document.getElementById("device-chart").getContext("2d");
+    new Chart(ctx,{
+        type:"doughnut",
+        data:{
+            labels:["PC","PHONE"],
+            datasets:[{data:[pcCount,phoneCount],backgroundColor:["#00ff9c","#00cfff"]}]
+        },
+        options:{responsive:true,plugins:{legend:{position:'bottom'}}}
+    });
+}
+
+// Aktif kullanıcılar (son 5 dakika)
+function updateActiveUsers(){
+    const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
+    const now = Date.now();
+    const active = logs.filter(l=> now-l.timestamp <= 5*60*1000 ).length;
+    document.getElementById("active-count").textContent = active;
+    setTimeout(updateActiveUsers,60000);
+}
 </script>
 
 </body>
