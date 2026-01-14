@@ -272,6 +272,27 @@ function setMode(mode){
     document.body.classList.add(mode+"-mode");
 }
 </script>
+<script>
+(function logVisitor(){
+    const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
 
+    const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const device = isPhone ? "PHONE" : "PC";
+
+    const log = {
+        device: device,
+        browser: navigator.userAgent.split(") ")[0] + ")",
+        language: navigator.language,
+        time: new Date().toLocaleString()
+    };
+
+    logs.push(log);
+
+    // Maksimum 100 log tut
+    if (logs.length > 100) logs.shift();
+
+    localStorage.setItem("gaz_logs", JSON.stringify(logs));
+})();
+</script>
 </body>
 </html>
