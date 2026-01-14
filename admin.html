@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>GAZ TEAM – ADMIN</title>
+<title>GAZ TEAM ADMIN</title>
 
 <style>
-body {
+body{
     background:#050505;
     color:#00ff9c;
     font-family:Courier New, monospace;
-    margin:0;
     padding:30px;
 }
 
-h1 {
-    text-align:center;
-}
-
-input, button {
+input,button{
     background:#000;
     border:1px solid #00ff9c;
     color:#00ff9c;
@@ -25,72 +20,71 @@ input, button {
     font-family:inherit;
 }
 
-button {
-    cursor:pointer;
-}
+button{cursor:pointer;}
 
-.log {
+.log{
     border:1px solid #222;
     padding:10px;
     margin-bottom:10px;
     background:#0b0b0b;
 }
 
-.hidden { display:none; }
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
 
-<h1>GAZ TEAM ADMIN PANEL</h1>
+<h1>ADMIN PANEL</h1>
 
 <div id="login">
-    <p>Enter admin password:</p>
-    <input type="password" id="password">
-    <button onclick="login()">LOGIN</button>
+<p>Password:</p>
+<input type="password" id="pass">
+<button onclick="login()">LOGIN</button>
 </div>
 
 <div id="panel" class="hidden">
-    <h2>> VISITOR LOGS</h2>
-    <div id="logs"></div>
+<h2>> VISITOR LOGS</h2>
+<button onclick="exportLogs()">EXPORT LOGS</button>
+<div id="logs"></div>
 </div>
 
 <script>
-const ADMIN_PASSWORD = "GAZ2026"; // 🔴 BURAYI İSTERSEN DEĞİŞTİR
+const PASSWORD="GAZ2026";
 
 function login(){
-    const pass = document.getElementById("password").value;
-    if(pass === ADMIN_PASSWORD){
+    if(document.getElementById("pass").value===PASSWORD){
         document.getElementById("login").classList.add("hidden");
         document.getElementById("panel").classList.remove("hidden");
-        loadLogs();
-    } else {
+        load();
+    }else{
         alert("ACCESS DENIED");
     }
 }
 
-function loadLogs(){
-    const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
-    const container = document.getElementById("logs");
-
-    if(logs.length === 0){
-        container.innerHTML = "<p>No logs found.</p>";
-        return;
-    }
-
-    container.innerHTML = "";
-    logs.reverse().forEach((log, i) => {
-        const div = document.createElement("div");
-        div.className = "log";
-        div.innerHTML = `
-            <b>#${i+1}</b><br>
-            Device: ${log.device}<br>
-            Browser: ${log.browser}<br>
-            Language: ${log.language}<br>
-            Time: ${log.time}
-        `;
-        container.appendChild(div);
+function load(){
+    let logs=JSON.parse(localStorage.getItem("gaz_logs")||"[]");
+    let c=document.getElementById("logs");
+    c.innerHTML="";
+    logs.reverse().forEach((l,i)=>{
+        let d=document.createElement("div");
+        d.className="log";
+        d.innerHTML=
+        `#${i+1}<br>
+        Device: ${l.device}<br>
+        Browser: ${l.browser}<br>
+        Time: ${l.time}`;
+        c.appendChild(d);
     });
+}
+
+function exportLogs(){
+    const data=localStorage.getItem("gaz_logs")||"[]";
+    const blob=new Blob([data],{type:"application/json"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="gaz_logs.json";
+    a.click();
 }
 </script>
 
