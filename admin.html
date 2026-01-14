@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GAZ TEAM – ADMIN</title>
+
+<style>
+body {
+    background:#050505;
+    color:#00ff9c;
+    font-family:Courier New, monospace;
+    margin:0;
+    padding:30px;
+}
+
+h1 {
+    text-align:center;
+}
+
+input, button {
+    background:#000;
+    border:1px solid #00ff9c;
+    color:#00ff9c;
+    padding:10px;
+    font-family:inherit;
+}
+
+button {
+    cursor:pointer;
+}
+
+.log {
+    border:1px solid #222;
+    padding:10px;
+    margin-bottom:10px;
+    background:#0b0b0b;
+}
+
+.hidden { display:none; }
+</style>
+</head>
+
+<body>
+
+<h1>GAZ TEAM ADMIN PANEL</h1>
+
+<div id="login">
+    <p>Enter admin password:</p>
+    <input type="password" id="password">
+    <button onclick="login()">LOGIN</button>
+</div>
+
+<div id="panel" class="hidden">
+    <h2>> VISITOR LOGS</h2>
+    <div id="logs"></div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = "GAZ2026"; // 🔴 BURAYI İSTERSEN DEĞİŞTİR
+
+function login(){
+    const pass = document.getElementById("password").value;
+    if(pass === ADMIN_PASSWORD){
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("panel").classList.remove("hidden");
+        loadLogs();
+    } else {
+        alert("ACCESS DENIED");
+    }
+}
+
+function loadLogs(){
+    const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
+    const container = document.getElementById("logs");
+
+    if(logs.length === 0){
+        container.innerHTML = "<p>No logs found.</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+    logs.reverse().forEach((log, i) => {
+        const div = document.createElement("div");
+        div.className = "log";
+        div.innerHTML = `
+            <b>#${i+1}</b><br>
+            Device: ${log.device}<br>
+            Browser: ${log.browser}<br>
+            Language: ${log.language}<br>
+            Time: ${log.time}
+        `;
+        container.appendChild(div);
+    });
+}
+</script>
+
+</body>
+</html>
