@@ -176,6 +176,41 @@ footer {
     margin-top:60px;
     font-size:13px;
 }
+
+/* ===== ADMIN PANEL ===== */
+#admin-panel {
+    background:#111;
+    border:1px solid #00ff9c;
+    padding:20px;
+}
+#admin-panel h2 {
+    color:#00ff9c;
+    margin-bottom:15px;
+}
+#admin-panel pre {
+    background:#000;
+    padding:10px;
+    overflow-x:auto;
+    max-height:300px;
+}
+#admin-password {
+    background:#000;
+    border:1px solid #00ff9c;
+    color:#0f0;
+    padding:6px 10px;
+    margin-right:6px;
+}
+#admin-login-btn {
+    background:#000;
+    border:1px solid #00ff9c;
+    color:#0f0;
+    padding:6px 10px;
+    cursor:pointer;
+}
+#admin-login-btn:hover {
+    background:#0f0;
+    color:#000;
+}
 </style>
 </head>
 
@@ -202,20 +237,19 @@ footer {
     <button onclick="showSection('home')">HOME</button>
     <button onclick="showSection('modding')">MODDING LAB</button>
     <button onclick="showSection('projects')">PROJECTS</button>
-    <button onclick="showSection('support')">SUPPORT US</button>
+    <button onclick="showSection('support')">BİZE DESTEK OL</button>
+    <button onclick="showSection('admin')">ADMIN PANEL</button>
 </div>
 
 <!-- HOME -->
 <div id="home" class="section">
 <h2>> WHO WE ARE</h2>
-
 <div>
 <span class="lang-btn" onclick="setLang('en')">EN</span>
 <span class="lang-btn" onclick="setLang('tr')">TR</span>
 <span class="lang-btn" onclick="setLang('pt')">PT-BR</span>
 <span class="lang-btn" onclick="setLang('ru')">RU</span>
 </div>
-
 <pre id="text-en">GAZ TEAM started inside SWTeam...</pre>
 <pre id="text-tr" class="hidden">GAZ TEAM, SWTeam içinde başladı...</pre>
 <pre id="text-pt" class="hidden">GAZ TEAM nasceu no SWTeam...</pre>
@@ -226,13 +260,7 @@ footer {
 <div id="modding" class="hidden section">
 <h2>> MODDING LAB</h2>
 <div class="game active">✔ ACTIVE — Simple Sandbox 2</div>
-<div class="game inactive">
-✖ PAST — Free Fire 
-✖ PAST — fwd
-✖ PAST — Blockfield
-✖ PAST — standoff 2
-</div>
-
+<div class="game inactive">✖ PAST — Free Fire</div>
 <div class="back">
 <button onclick="showSection('home')">← BACK TO HOME</button>
 </div>
@@ -241,14 +269,12 @@ footer {
 <!-- PROJECTS -->
 <div id="projects" class="hidden section">
 <h2>> PROJECTS</h2>
-
 <div class="project">
-<b>Simple Sandbox 2 ModMenu</b><br><br>
+<b>SSB2 – OctoHook</b><br><br>
 <a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">
 Download Mod
 </a>
 </div>
-
 <div class="back">
 <button onclick="showSection('home')">← BACK TO HOME</button>
 </div>
@@ -257,25 +283,40 @@ Download Mod
 <!-- SUPPORT -->
 <div id="support" class="hidden section">
 <h2>> SUPPORT GAZ TEAM</h2>
-<p>Addresses for those wishing to provide support:</p>
-
-<button onclick="location.href='support.html'">
-GO TO SUPPORT PAGE →
-</button>
+<p>Destek olmak isteyenler için adresler:</p>
+<button onclick="location.href='support.html'">GO TO SUPPORT PAGE →</button>
 </div>
 
-<footer>© GAZ TEAM — Octohook</footer>
+<!-- ADMIN PANEL -->
+<div id="admin" class="hidden section">
+<h2>> ADMIN PANEL</h2>
+<p>Şifre giriniz:</p>
+<input type="password" id="admin-password" placeholder="Password">
+<button id="admin-login-btn">LOGIN</button>
 
+<div id="admin-panel" class="hidden">
+<h2>Visitor Logs</h2>
+<pre id="log-output">Loading...</pre>
+</div>
+
+<div class="back">
+<button onclick="showSection('home')">← BACK TO HOME</button>
+</div>
+</div>
+
+<footer>© GAZ TEAM — STATUS: ONLINE</footer>
 </div>
 
 <script>
+// Section göster
 function showSection(id){
-    ["home","modding","projects","support"].forEach(s=>{
+    ["home","modding","projects","support","admin"].forEach(s=>{
         document.getElementById(s).classList.add("hidden");
     });
     document.getElementById(id).classList.remove("hidden");
 }
 
+// Dil değiştir
 function setLang(lang){
     ["en","tr","pt","ru"].forEach(l=>{
         document.getElementById("text-"+l).classList.add("hidden");
@@ -283,15 +324,15 @@ function setLang(lang){
     document.getElementById("text-"+lang).classList.remove("hidden");
 }
 
+// Mod değiştir
 function setMode(mode){
     document.body.classList.remove("pc-mode","phone-mode");
     document.body.classList.add(mode+"-mode");
 }
 
-// LOG SYSTEM
+// Log sistemi
 (function logVisitor(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
-
     const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const device = isPhone ? "PHONE" : "PC";
 
@@ -305,9 +346,21 @@ function setMode(mode){
     logs.push(log);
 
     if(logs.length > 200) logs.shift();
-
     localStorage.setItem("gaz_logs", JSON.stringify(logs));
 })();
+
+// Admin panel login
+document.getElementById("admin-login-btn").addEventListener("click", function(){
+    const pwd = document.getElementById("admin-password").value;
+    const correctPassword = "gazadmin"; // Şifreyi değiştirebilirsin
+    if(pwd === correctPassword){
+        document.getElementById("admin-panel").classList.remove("hidden");
+        const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
+        document.getElementById("log-output").textContent = logs.map(l=>JSON.stringify(l)).join("\n");
+    } else {
+        alert("Şifre yanlış!");
+    }
+});
 </script>
 
 </body>
