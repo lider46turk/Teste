@@ -57,8 +57,29 @@ h2 {
     margin-bottom: 20px;
 }
 
-p {
-    line-height: 1.8;
+/* LANGUAGE BUTTONS */
+.lang-buttons {
+    margin-bottom: 20px;
+}
+
+.lang-buttons button {
+    background: transparent;
+    border: 1px solid #00ff9c;
+    color: #00ff9c;
+    padding: 6px 12px;
+    margin-right: 8px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.lang-buttons button:hover {
+    background: #00ff9c22;
+}
+
+/* TEXT */
+pre {
+    white-space: pre-wrap;
+    line-height: 1.7;
     color: #b6ffe6;
 }
 
@@ -74,12 +95,6 @@ p {
     border: 1px solid #00ff9c;
     padding: 30px;
     text-align: center;
-    transition: 0.3s;
-}
-
-.card:hover {
-    background: #00ff9c22;
-    transform: translateY(-6px);
 }
 
 /* LINKS */
@@ -106,20 +121,56 @@ footer {
 
 <div class="container">
 
+    <!-- HERO -->
     <div class="hero">
         <div class="terminal">> ACCESS GRANTED</div>
         <h1>GAZ TEAM</h1>
         <div class="subtitle">underground digital group</div>
     </div>
 
+    <!-- WHO WE ARE -->
     <section>
         <h2>> WHO WE ARE</h2>
-        <p>
-            We are GAZ TEAM.<br>
-            Digital chaos.<br>
-            Controlled intelligence.
-            WhiteModder
-            // origin.log
+
+        <div class="lang-buttons">
+            <button onclick="setLang('en')">EN</button>
+            <button onclick="setLang('tr')">TR</button>
+            <button onclick="setLang('pt')">PT-BR</button>
+            <button onclick="setLang('ru')">RU</button>
+        </div>
+
+        <pre id="who-text"></pre>
+    </section>
+
+    <!-- OPERATIONS -->
+    <section>
+        <h2>> OPERATIONS</h2>
+        <div class="cards">
+            <div class="card">INTELLIGENCE</div>
+            <div class="card">DIGITAL POWER</div>
+            <div class="card">OPERATIONS</div>
+        </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section>
+        <h2>> CONNECT</h2>
+        <a href="#">Telegram</a><br>
+        <a href="#">Discord</a><br>
+        <a href="#">GitHub</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>> STATUS: ONLINE</p>
+        <p>© GAZ TEAM</p>
+    </footer>
+
+</div>
+
+<script>
+const texts = {
+en: `// origin.log
 
 GAZ TEAM started as a collective of modders inside the SWTeam group.
 The journey began with Free Fire — our first testing ground.
@@ -132,41 +183,76 @@ GAZ TEAM was formed.
 
 From 2021 to 2026, we focused on modding, experimenting, and learning.
 Slow progress. Real experience.
-Project by project, the group evolved.
 
 Today, GAZ TEAM operates with over 300 active members.
-And this is not the final build.
+More games. More mods.
 
-We are expanding.
-More games. More mods. More control.
+Stay tuned.`,
 
-Stay tuned. <br>
+tr: `// origin.log
 
-        </p>
-    </section>
+GAZ TEAM, ilk olarak SWTeam grubu içerisinde ortak modlama çalışmalarıyla başladı.
+Macera Free Fire ile başladı — ilk deneme alanımızdı.
 
-    <section>
-        <h2>> OPERATIONS</h2>
-        <div class="cards">
-            <div class="card">INTELLIGENCE</div>
-            <div class="card">DIGITAL POWER</div>
-            <div class="card">OPERATIONS</div>
-        </div>
-    </section>
+Yeni imkanları keşfederken Simple Sandbox 2 ile tanıştık.
+Bu noktada yolumuz ayrıldı.
+SWTeam'den ayrıldık ve bağımsız olarak devam ettik.
 
-    <section>
-        <h2>> CONNECT</h2>
-        <a href="#">Telegram</a><br>
-        <a href="#">Discord</a><br>
-        <a href="#">GitHub</a>
-    </section>
+GAZ TEAM kurulmuştu.
 
-    <footer>
-        <p>> STATUS: ONLINE</p>
-        <p>© GAZ TEAM</p>
-    </footer>
+2021-2026 yılları arasında modlama yaptık, denedik, öğrendik.
+Yavaş ilerleme. Gerçek tecrübe.
 
-</div>
+Bugün GAZ TEAM, 300+ aktif üyeye sahiptir.
+Daha fazla oyun. Daha fazla mod.
+
+Bizi izlemeye devam edin.`,
+
+pt: `// origin.log
+
+GAZ TEAM começou como um grupo de modders dentro do SWTeam.
+A jornada começou com Free Fire — nosso primeiro campo de testes.
+
+Explorando novas possibilidades, descobrimos o Simple Sandbox 2.
+Nesse ponto, nossos caminhos se separaram.
+Saímos do SWTeam e seguimos de forma independente.
+
+GAZ TEAM foi criado.
+
+De 2021 a 2026, focamos em modding, testes e aprendizado.
+Progresso lento. Experiência real.
+
+Hoje, o GAZ TEAM possui mais de 300 membros ativos.
+Mais jogos. Mais mods.
+
+Aguardem.`,
+
+ru: `// origin.log
+
+GAZ TEAM началась как группа моддеров внутри SWTeam.
+Путь начался с Free Fire — нашей первой тестовой площадки.
+
+Изучая новые возможности, мы открыли Simple Sandbox 2.
+В этот момент наш путь изменился.
+Мы покинули SWTeam и продолжили самостоятельно.
+
+Так появилась GAZ TEAM.
+
+С 2021 по 2026 год мы занимались моддингом, экспериментировали и учились.
+Медленный рост. Реальный опыт.
+
+Сегодня GAZ TEAM насчитывает более 300 активных участников.
+Больше игр. Больше модов.
+
+Оставайтесь с нами.`
+};
+
+function setLang(lang) {
+    document.getElementById("who-text").textContent = texts[lang];
+}
+
+setLang('en');
+</script>
 
 </body>
 </html>
