@@ -7,6 +7,10 @@
 <!-- Chart.js için -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <style>
 /* ===== GENEL ===== */
 body {
@@ -35,7 +39,7 @@ body.phone-mode .container { max-width:100%; padding:30px 15px; }
 .bg-binary {
     position:fixed;
     inset:0;
-    z-index:0;
+    z-index:1;
     pointer-events:none;
     opacity:0.06;
     color:#00ff9c;
@@ -44,15 +48,6 @@ body.phone-mode .container { max-width:100%; padding:30px 15px; }
     animation: scroll 25s linear infinite;
 }
 @keyframes scroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-
-/* ===== MATRIX EFFECT ===== */
-#matrix-canvas {
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    z-index:0;
-    pointer-events:none;
-}
 
 /* ===== TOP BAR ===== */
 .top-bar {
@@ -160,24 +155,30 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 #admin-login-btn { background:#000; border:1px solid #00ff9c; color:#0f0; padding:6px 10px; cursor:pointer; }
 #admin-login-btn:hover { background:#0f0; color:#000; }
 
-/* ===== CHAT / FORUM ===== */
-#chat-box { 
-    border:1px solid #00ff9c;
-    background:#0b0b0b;
-    padding:10px;
-    max-height:300px;
-    overflow-y:auto;
-    margin-bottom:10px;
+/* ===== CHAT ===== */
+#chat-section {
+    background:#111;
+    border:1px solid #00cfff;
+    padding:15px;
+    margin-top:20px;
 }
-#chat-input { width:80%; padding:6px; border:1px solid #00ff9c; background:#000; color:#0f0; }
-#chat-send { padding:6px 10px; border:1px solid #00ff9c; background:#000; color:#0f0; cursor:pointer; }
+#chat-messages {
+    max-height:200px;
+    overflow-y:auto;
+    border:1px solid #00cfff;
+    padding:10px;
+    margin-bottom:10px;
+    background:#000;
+    color:#0f0;
+    font-size:12px;
+}
+#chat-input { width:70%; padding:6px; background:#000; border:1px solid #00cfff; color:#0f0; }
+#chat-send { padding:6px 10px; background:#000; border:1px solid #00cfff; color:#0f0; cursor:pointer; }
 #chat-send:hover { background:#0f0; color:#000; }
 </style>
 </head>
 
 <body class="pc-mode">
-
-<canvas id="matrix-canvas"></canvas>
 
 <div class="bg-binary">
 010101001010101010010101001010101010010101001010101001010101001010101010010101
@@ -201,8 +202,8 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
     <button onclick="showSection('modding')">MODDING LAB</button>
     <button onclick="showSection('projects')">PROJECTS</button>
     <button onclick="showSection('support')">BİZE DESTEK OL</button>
-    <button onclick="showSection('admin')">ADMIN PANEL</button>
     <button onclick="showSection('chat')">CHAT</button>
+    <button onclick="showSection('admin')">ADMIN PANEL</button>
 </div>
 
 <!-- HOME -->
@@ -251,6 +252,19 @@ Download Mod
 <button onclick="location.href='support.html'">GO TO SUPPORT PAGE →</button>
 </div>
 
+<!-- CHAT -->
+<div id="chat" class="hidden section">
+<h2>> GAZ TEAM CHAT</h2>
+<div id="chat-section">
+    <div id="chat-messages"></div>
+    <input type="text" id="chat-input" placeholder="Mesaj yaz...">
+    <button id="chat-send">SEND</button>
+</div>
+<div class="back">
+<button onclick="showSection('home')">← BACK TO HOME</button>
+</div>
+</div>
+
 <!-- ADMIN PANEL -->
 <div id="admin" class="hidden section">
 <h2>> ADMIN PANEL</h2>
@@ -268,17 +282,8 @@ Download Mod
 <option value="PHONE">PHONE</option>
 </select>
 
-<label>Filter by Language:</label>
-<select id="filter-lang">
-<option value="all">All</option>
-<option value="en">EN</option>
-<option value="tr">TR</option>
-<option value="pt">PT-BR</option>
-<option value="ru">RU</option>
-</select>
-
-<label>Search Browser/IP:</label>
-<input type="text" id="search-browser" placeholder="Browser or IP search...">
+<label>Search Browser:</label>
+<input type="text" id="search-browser" placeholder="Tarayıcı ara...">
 
 <table>
 <thead>
@@ -296,24 +301,13 @@ Download Mod
 </div>
 </div>
 
-<!-- CHAT / MINI FORUM -->
-<div id="chat" class="hidden section">
-<h2>> CHAT / MINI FORUM</h2>
-<div id="chat-box"></div>
-<input type="text" id="chat-input" placeholder="Mesaj yaz...">
-<button id="chat-send">SEND</button>
-<div class="back">
-<button onclick="showSection('home')">← BACK TO HOME</button>
-</div>
-</div>
-
 <footer>© GAZ TEAM — STATUS: ONLINE</footer>
 </div>
 
 <script>
 // Section göster
 function showSection(id){
-    ["home","modding","projects","support","admin","chat"].forEach(s=>{
+    ["home","modding","projects","support","chat","admin"].forEach(s=>{
         document.getElementById(s).classList.add("hidden");
     });
     document.getElementById(id).classList.remove("hidden");
@@ -369,11 +363,9 @@ function renderLogs(){
     const tbody = document.getElementById("log-table-body");
     tbody.innerHTML="";
     const filterDevice = document.getElementById("filter-device").value.toUpperCase();
-    const filterLang = document.getElementById("filter-lang").value.toLowerCase();
     const searchBrowser = document.getElementById("search-browser").value.toLowerCase();
     logs.forEach(l=>{
         if((filterDevice==="ALL" || l.device===filterDevice) &&
-           (filterLang==="all" || l.language.toLowerCase()===filterLang) &&
            (l.browser.toLowerCase().includes(searchBrowser))){
             const tr = document.createElement("tr");
             tr.innerHTML=`<td>${l.time}</td><td>${l.device}</td><td>${l.browser}</td><td>${l.language}</td>`;
@@ -382,7 +374,6 @@ function renderLogs(){
     });
 }
 document.getElementById("filter-device").addEventListener("change", renderLogs);
-document.getElementById("filter-lang").addEventListener("change", renderLogs);
 document.getElementById("search-browser").addEventListener("input", renderLogs);
 
 // Grafik
@@ -410,54 +401,47 @@ function updateActiveUsers(){
     setTimeout(updateActiveUsers,60000);
 }
 
-// MATRIX / BITSTREAM ANIMATION
-const canvas = document.getElementById('matrix-canvas');
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
-const letters = Array(300).fill(0);
-function matrix(){
-    ctx.fillStyle = 'rgba(5,5,5,0.1)';
-    ctx.fillRect(0,0,width,height);
-    ctx.fillStyle = '#00ff9c';
-    ctx.font = '15px monospace';
-    letters.forEach((y,i)=>{
-        const x = i * 20;
-        ctx.fillText(String.fromCharCode(33+Math.random()*94),x,y);
-        letters[i] = y>height+Math.random()*1000 ? 0 : y+20;
+// ===== FIREBASE CONFIG & CHAT =====
+const firebaseConfig = {
+  apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc",
+  authDomain: "gazteam.firebaseapp.com",
+  databaseURL: "https://gazteam-default-rtdb.firebaseio.com",
+  projectId: "gazteam",
+  storageBucket: "gazteam.firebasestorage.app",
+  messagingSenderId: "595871641174",
+  appId: "1:595871641174:web:1a2795854b6df5d324d5f7",
+  measurementId: "G-TJ3X3M103X"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Mesaj gönder
+document.getElementById("chat-send").addEventListener("click", function(){
+    const msgInput = document.getElementById("chat-input");
+    const msg = msgInput.value;
+    if(msg.trim()==="") return;
+
+    const newMsgRef = database.ref("messages").push();
+    newMsgRef.set({
+        text: msg,
+        time: new Date().toLocaleString()
     });
-}
-setInterval(matrix,50);
-window.addEventListener('resize',()=>{
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+
+    msgInput.value="";
 });
 
-// CHAT / MINI FORUM
-const chatBox = document.getElementById('chat-box');
-const chatInput = document.getElementById('chat-input');
-const chatSend = document.getElementById('chat-send');
-function loadChat(){
-    const msgs = JSON.parse(localStorage.getItem('gaz_chat')||'[]');
-    chatBox.innerHTML = '';
-    msgs.forEach(m=>{
-        const div = document.createElement('div');
-        div.textContent = `[${m.time}] ${m.msg}`;
-        chatBox.appendChild(div);
+// Mesajları göster
+const messagesContainer = document.getElementById("chat-messages");
+database.ref("messages").on("value", snapshot=>{
+    messagesContainer.innerHTML="";
+    snapshot.forEach(childSnap=>{
+        const msgData = childSnap.val();
+        const div = document.createElement("div");
+        div.textContent = `[${msgData.time}] ${msgData.text}`;
+        messagesContainer.appendChild(div);
     });
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-chatSend.addEventListener('click',()=>{
-    const msg = chatInput.value.trim();
-    if(msg==='') return;
-    const msgs = JSON.parse(localStorage.getItem('gaz_chat')||'[]');
-    msgs.push({msg,time:new Date().toLocaleTimeString()});
-    localStorage.setItem('gaz_chat',JSON.stringify(msgs));
-    chatInput.value='';
-    loadChat();
 });
-loadChat();
-
 </script>
 
 </body>
