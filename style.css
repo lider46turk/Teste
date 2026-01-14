@@ -1,0 +1,57 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    background: #000;
+    color: #00ff9c;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* HERO OPENING */
+#hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 60px;
+}
+
+.terminal-line {
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+}
+
+#hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 4px;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+    animation-delay: 1s;
+}
+
+.subtitle {
+    color: #7f00ff;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+    animation-delay: 2s;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
