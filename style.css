@@ -5,68 +5,100 @@
 }
 
 body {
-    background: #000;
+    background: radial-gradient(circle at top, #020202, #000);
     color: #00ff9c;
     font-family: 'Share Tech Mono', monospace;
-    text-align: center;
-    padding: 40px;
+    min-height: 100vh;
 }
 
+/* ORTA KONTEYNER */
+body > * {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* HERO */
 .hero {
-    margin-top: 60px;
+    text-align: center;
+    margin-top: 120px;
+    margin-bottom: 120px;
 }
 
 .terminal {
     color: #00ff9c;
     font-size: 18px;
-    margin-bottom: 20px;
+    opacity: 0.8;
+    margin-bottom: 25px;
 }
 
 h1 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 60px;
-    letter-spacing: 4px;
+    font-size: 72px;
+    letter-spacing: 6px;
 }
 
 .subtitle {
-    color: #aaa;
-    margin-top: 10px;
+    margin-top: 15px;
+    color: #8affd1;
     font-size: 18px;
 }
 
+/* SECTIONS */
 section {
-    margin-top: 80px;
+    margin-bottom: 120px;
 }
 
 h2 {
     font-size: 22px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #00ff9c;
 }
 
+section p {
+    line-height: 1.8;
+    color: #b6ffe6;
+}
+
+/* OPERATIONS */
 .cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
 }
 
 .card {
-    border: 1px solid #00ff9c;
-    padding: 20px 30px;
+    border: 1px solid #00ff9c55;
+    padding: 35px 20px;
+    text-align: center;
+    transition: 0.3s;
 }
 
+.card:hover {
+    background: #00ff9c11;
+    transform: translateY(-6px);
+}
+
+/* LINKS */
 a {
     color: #00ff9c;
     text-decoration: none;
+    font-size: 18px;
     display: inline-block;
-    margin: 5px 0;
+    margin: 8px 0;
+    transition: 0.3s;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #ffffff;
+    text-shadow: 0 0 8px #00ff9c;
 }
 
+/* FOOTER */
 footer {
-    margin-top: 100px;
+    text-align: center;
+    padding-bottom: 40px;
+    color: #4d7f6b;
     font-size: 14px;
-    color: #555;
 }
