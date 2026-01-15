@@ -27,15 +27,19 @@
 
 <style>
 /* ===== GENEL ===== */
-body { background:#050505; color:#e0e0e0; font-family:Courier New, monospace; margin:0; overflow-x:hidden;}
+body { background:#050505; color:#e0e0e0; font-family:Courier New, monospace; margin:0; overflow-x:hidden; }
 body.pc-mode { font-size:16px; }
 body.phone-mode { font-size:18px; }
-.container { max-width:900px; margin:auto; padding:40px 20px; position:relative; z-index:2;}
+.container { max-width:900px; margin:auto; padding:40px 20px; position:relative; z-index:2; }
 body.phone-mode .container { max-width:100%; padding:30px 15px; }
 
 /* ===== MATRIX / BITSTREAM ANIM ===== */
-.bg-binary { position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.06; color:#00ff9c; font-size:14px; white-space:pre-wrap; animation: scroll 25s linear infinite;}
-@keyframes scroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+.bg-binary {
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    color:#00ff9c; font-size:18px; white-space:pre;
+    animation: scroll 20s linear infinite;
+}
+@keyframes scroll { from { transform: translateY(0); } to { transform: translateY(-100%); } }
 
 /* ===== TOP BAR ===== */
 .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
@@ -57,26 +61,12 @@ body.phone-mode .menu button { padding:14px 22px; font-size:18px; }
 .section { border-left:3px solid #00ff9c; padding-left:20px; margin-bottom:40px; }
 body.phone-mode .section { border-left:2px solid #00ff9c; padding-left:14px; }
 
-/* ===== LANGUAGE ===== */
-.lang-btn { margin-right:12px; cursor:pointer; color:#00cfff; }
-
-/* ===== MODDING ===== */
-.game.active { color:#00ff4c; }
-.game.inactive { color:#ff3c3c; }
-
-/* ===== PROJECT ===== */
-.project { border:1px solid #222; padding:15px; margin-bottom:15px; background:#0b0b0b; }
-
-/* ===== BACK BUTTON ===== */
-.back { margin-top:30px; }
-.back button { background:none; border:1px solid #444; color:#888; padding:10px 16px; cursor:pointer; }
-body.phone-mode .back button { padding:14px 20px; font-size:18px; }
-
-/* ===== HIDDEN ===== */
-.hidden { display:none; }
-
-/* ===== FOOTER ===== */
-footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
+/* ===== CHAT ===== */
+#chat-box { border:1px solid #00ff9c; padding:10px; height:300px; overflow-y:auto; background:#111; margin-bottom:10px; }
+#chat-input { width:calc(100% - 100px); padding:6px; background:#000; border:1px solid #00ff9c; color:#fff; }
+#chat-username { width:90px; padding:6px; background:#000; border:1px solid #00ff9c; color:#fff; margin-right:4px; }
+#chat-send { padding:6px 10px; background:#000; border:1px solid #00ff9c; color:#0f0; cursor:pointer; }
+#chat-send:hover { background:#0f0; color:#000; }
 
 /* ===== ADMIN PANEL ===== */
 #admin-panel { background:#111; border:1px solid #00ff9c; padding:20px; margin-top:15px; }
@@ -87,19 +77,15 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 #admin-panel input { padding:6px; margin:6px 0; background:#000; border:1px solid #00ff9c; color:#0f0; }
 #admin-login-btn { background:#000; border:1px solid #00ff9c; color:#0f0; padding:6px 10px; cursor:pointer; }
 #admin-login-btn:hover { background:#0f0; color:#000; }
-
-/* ===== CHAT ===== */
-#chat-box { border:1px solid #00ff9c; padding:10px; height:200px; overflow-y:auto; background:#111; margin-bottom:10px; }
-#chat-input { width:calc(100% - 80px); padding:6px; background:#000; border:1px solid #00ff9c; color:#fff; }
-#chat-send { padding:6px 10px; background:#000; border:1px solid #00ff9c; color:#0f0; cursor:pointer; }
-#chat-send:hover { background:#0f0; color:#000; }
 </style>
 </head>
 
 <body class="pc-mode">
 
-<div class="bg-binary">
+<div class="bg-binary" id="matrix">
 010101001010101010010101001010101010010101001010101001010101001010101010010101
+<br>010101010101001010101010010101001010101010010101001010101001010101010010101
+<br>010101010101001010101010010101001010101010010101001010101001010101010010101
 </div>
 
 <div class="container">
@@ -127,16 +113,7 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 <!-- HOME -->
 <div id="home" class="section">
 <h2>> WHO WE ARE</h2>
-<div>
-<span class="lang-btn" onclick="setLang('en')">EN</span>
-<span class="lang-btn" onclick="setLang('tr')">TR</span>
-<span class="lang-btn" onclick="setLang('pt')">PT-BR</span>
-<span class="lang-btn" onclick="setLang('ru')">RU</span>
-</div>
-<pre id="text-en">GAZ TEAM started inside SWTeam...</pre>
-<pre id="text-tr" class="hidden">GAZ TEAM, SWTeam içinde başladı...</pre>
-<pre id="text-pt" class="hidden">GAZ TEAM nasceu no SWTeam...</pre>
-<pre id="text-ru" class="hidden">GAZ TEAM начался в SWTeam...</pre>
+<p>GAZ TEAM started inside SWTeam...</p>
 </div>
 
 <!-- MODDING -->
@@ -171,10 +148,10 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 <!-- CHAT -->
 <div id="chat" class="hidden section">
 <h2>> CHAT</h2>
-<div id="chat-box"></div>
 <input type="text" id="chat-username" placeholder="Username">
 <input type="text" id="chat-input" placeholder="Mesaj yaz...">
 <button id="chat-send">SEND</button>
+<div id="chat-box"></div>
 </div>
 
 <!-- ADMIN PANEL -->
@@ -213,17 +190,9 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 
 <script type="module">
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-
 const db = getDatabase();
 
-const userTags = {
-  "yusuf46":["Admin","#00ff00"],
-  "ozgur99":["Moderator","orange"],
-  "protection1":["Protection","black"],
-  "tester123":["Tester","#00cfff"]
-};
-
-// Section göster
+// Section
 function showSection(id){
     ["home","modding","projects","support","chat","admin"].forEach(s=>{
         document.getElementById(s).classList.add("hidden");
@@ -231,112 +200,54 @@ function showSection(id){
     document.getElementById(id).classList.remove("hidden");
 }
 
-// Dil değiştir
-function setLang(lang){
-    ["en","tr","pt","ru"].forEach(l=>{
-        document.getElementById("text-"+l).classList.add("hidden");
-    });
-    document.getElementById("text-"+lang).classList.remove("hidden");
-}
-
-// Mod değiştir
+// Mode
 function setMode(mode){
     document.body.classList.remove("pc-mode","phone-mode");
     document.body.classList.add(mode+"-mode");
 }
 
-// Log sistemi
-(function logVisitor(){
-    const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
-    const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const device = isPhone ? "PHONE" : "PC";
-    const log = {
-        device: device,
-        browser: navigator.userAgent.split(") ")[0] + ")",
-        language: navigator.language,
-        time: new Date().toLocaleString(),
-        timestamp: Date.now()
-    };
-    logs.push(log);
-    if(logs.length > 500) logs.shift();
-    localStorage.setItem("gaz_logs", JSON.stringify(logs));
-})();
-
-// Admin login ve panel
+// Admin login
 document.getElementById("admin-login-btn").addEventListener("click", function(){
     const pwd = document.getElementById("admin-password").value;
     const correctPassword = "gazadmin";
     if(pwd === correctPassword){
-        const panel = document.getElementById("admin-panel");
-        panel.classList.remove("hidden");
-        renderLogs();
-        renderChart();
-        updateActiveUsers();
+        document.getElementById("admin-panel").classList.remove("hidden");
     } else { alert("Şifre yanlış!"); }
 });
 
-// Logları tabloya yazdır
-function renderLogs(){
+// Log
+(function logVisitor(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
-    const tbody = document.getElementById("log-table-body");
-    tbody.innerHTML="";
-    const filterDevice = document.getElementById("filter-device").value.toUpperCase();
-    const searchBrowser = document.getElementById("search-browser").value.toLowerCase();
-    logs.forEach(l=>{
-        if((filterDevice==="ALL" || l.device===filterDevice) &&
-           (l.browser.toLowerCase().includes(searchBrowser))){
-            const tr = document.createElement("tr");
-            tr.innerHTML=`<td>${l.time}</td><td>${l.device}</td><td>${l.browser}</td><td>${l.language}</td>`;
-            tbody.appendChild(tr);
-        }
-    });
-}
-document.getElementById("filter-device").addEventListener("change", renderLogs);
-document.getElementById("search-browser").addEventListener("input", renderLogs);
+    const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const device = isPhone?"PHONE":"PC";
+    const log={device,browser:navigator.userAgent.split(")")[0]+")",language:navigator.language,time:new Date().toLocaleString(),timestamp:Date.now()};
+    logs.push(log);
+    if(logs.length>500) logs.shift();
+    localStorage.setItem("gaz_logs",JSON.stringify(logs));
+})();
 
-// Grafik
-function renderChart(){
-    const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
-    const pcCount = logs.filter(l=>l.device==="PC").length;
-    const phoneCount = logs.filter(l=>l.device==="PHONE").length;
-    const ctx = document.getElementById("device-chart").getContext("2d");
-    new Chart(ctx,{
-        type:"doughnut",
-        data:{ labels:["PC","PHONE"], datasets:[{data:[pcCount,phoneCount],backgroundColor:["#00ff9c","#00cfff"]}] },
-        options:{responsive:true,plugins:{legend:{position:'bottom'}}}
-    });
-}
+// Active Users & Chart
+function updateActiveUsers(){ const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]"); const now=Date.now(); const active=logs.filter(l=>now-l.timestamp<=5*60*1000).length; document.getElementById("active-count").textContent=active; setTimeout(updateActiveUsers,60000);}
+updateActiveUsers();
 
-// Aktif kullanıcılar
-function updateActiveUsers(){
-    const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
-    const now = Date.now();
-    const active = logs.filter(l=> now-l.timestamp <= 5*60*1000 ).length;
-    document.getElementById("active-count").textContent = active;
-    setTimeout(updateActiveUsers,60000);
-}
-
-// Chat sistemi
-const chatBox = document.getElementById("chat-box");
-const chatInput = document.getElementById("chat-input");
-const chatSend = document.getElementById("chat-send");
-const chatUsername = document.getElementById("chat-username");
+// Chat
+const chatBox=document.getElementById("chat-box");
+const chatInput=document.getElementById("chat-input");
+const chatSend=document.getElementById("chat-send");
+const chatUsername=document.getElementById("chat-username");
 
 function renderChat(){
-    chatBox.innerHTML = "";
     const chatRef = ref(db,"chat");
-    onValue(chatRef,(snapshot)=>{
+    onValue(chatRef,snapshot=>{
         chatBox.innerHTML="";
         snapshot.forEach(child=>{
-            const msg = child.val();
-            let tag = "Member";
-            let color = "white";
-            if(userTags[msg.username]){
-                tag = userTags[msg.username][0];
-                color = userTags[msg.username][1];
-            }
-            const msgEl = document.createElement("div");
-            msgEl.innerHTML=`<span style="color:${color}">[${tag}] ${msg.username}:</span> ${msg.text}`;
+            const msg=child.val();
+            const date = new Date(msg.timestamp);
+            const hour = date.getHours().toString().padStart(2,"0");
+            const min = date.getMinutes().toString().padStart(2,"0");
+            const timeStr = `${hour}:${min}`;
+            const msgEl=document.createElement("div");
+            msgEl.textContent=`[${timeStr}] ${msg.username}: ${msg.text}`;
             chatBox.appendChild(msgEl);
             chatBox.scrollTop = chatBox.scrollHeight;
         });
@@ -344,16 +255,14 @@ function renderChat(){
 }
 renderChat();
 
-chatSend.addEventListener("click", ()=>{
+chatSend.addEventListener("click",()=>{
     const username = chatUsername.value.trim() || "Anonymous";
     const text = chatInput.value.trim();
     if(!text) return;
-    push(ref(db,"chat"),{username,text});
+    push(ref(db,"chat"),{username,text,timestamp:Date.now()});
     chatInput.value="";
 });
-chatInput.addEventListener("keypress", e=>{
-    if(e.key === "Enter") chatSend.click();
-});
+chatInput.addEventListener("keypress", e=>{ if(e.key==="Enter") chatSend.click(); });
 </script>
 
 </body>
