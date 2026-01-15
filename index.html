@@ -3,68 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>GAZ TEAM</title>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js"></script>
-
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc",
+    authDomain: "gazteam.firebaseapp.com",
+    databaseURL: "https://gazteam-default-rtdb.firebaseio.com",
+    projectId: "gazteam",
+    storageBucket: "gazteam.firebasestorage.app",
+    messagingSenderId: "595871641174",
+    appId: "1:595871641174:web:1a2795854b6df5d324d5f7",
+    measurementId: "G-TJ3X3M103X"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+</script>
 
 <style>
 /* ===== GENEL ===== */
-body {
-    background:#050505;
-    color:#e0e0e0;
-    font-family:Courier New, monospace;
-    margin:0;
-    overflow-x:hidden;
-}
-
-/* ===== MODE SYSTEM ===== */
+body { background:#050505; color:#e0e0e0; font-family:Courier New, monospace; margin:0; overflow-x:hidden;}
 body.pc-mode { font-size:16px; }
 body.phone-mode { font-size:18px; }
-
-/* ===== CONTAINER ===== */
-.container {
-    max-width:900px;
-    margin:auto;
-    padding:40px 20px;
-    position:relative;
-    z-index:2;
-}
+.container { max-width:900px; margin:auto; padding:40px 20px; position:relative; z-index:2;}
 body.phone-mode .container { max-width:100%; padding:30px 15px; }
 
-/* ===== BACKGROUND ===== */
-.bg-binary {
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    opacity:0.06;
-    color:#00ff9c;
-    font-size:14px;
-    white-space:pre-wrap;
-    animation: scroll 25s linear infinite;
-}
+/* ===== MATRIX / BITSTREAM ANIM ===== */
+.bg-binary { position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.06; color:#00ff9c; font-size:14px; white-space:pre-wrap; animation: scroll 25s linear infinite;}
 @keyframes scroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
 
 /* ===== TOP BAR ===== */
-.top-bar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-.mode-switch button {
-    background:#000;
-    border:1px solid #00ff9c;
-    color:#00ff9c;
-    padding:6px 10px;
-    cursor:pointer;
-    margin-left:6px;
-    font-family:inherit;
-}
+.top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.mode-switch button { background:#000; border:1px solid #00ff9c; color:#00ff9c; padding:6px 10px; cursor:pointer; margin-left:6px; font-family:inherit; }
 .mode-switch button:hover { background:#00ff9c; color:#000; }
 
 /* ===== BAŞLIK ===== */
@@ -73,28 +48,13 @@ body.phone-mode h1 { font-size:28px; }
 .subtitle { text-align:center; color:#888; margin-bottom:30px; }
 
 /* ===== MENU ===== */
-.menu {
-    text-align:center;
-    margin:30px 0;
-}
-.menu button {
-    background:#000;
-    color:#00ff9c;
-    border:1px solid #00ff9c;
-    padding:10px 18px;
-    margin:6px;
-    cursor:pointer;
-    font-family:inherit;
-}
+.menu { text-align:center; margin:30px 0; }
+.menu button { background:#000; color:#00ff9c; border:1px solid #00ff9c; padding:10px 18px; margin:6px; cursor:pointer; font-family:inherit; }
 body.phone-mode .menu button { padding:14px 22px; font-size:18px; }
 .menu button:hover { background:#00ff9c; color:#000; }
 
 /* ===== SECTION ===== */
-.section {
-    border-left:3px solid #00ff9c;
-    padding-left:20px;
-    margin-bottom:40px;
-}
+.section { border-left:3px solid #00ff9c; padding-left:20px; margin-bottom:40px; }
 body.phone-mode .section { border-left:2px solid #00ff9c; padding-left:14px; }
 
 /* ===== LANGUAGE ===== */
@@ -105,24 +65,11 @@ body.phone-mode .section { border-left:2px solid #00ff9c; padding-left:14px; }
 .game.inactive { color:#ff3c3c; }
 
 /* ===== PROJECT ===== */
-.project {
-    border:1px solid #222;
-    padding:15px;
-    margin-bottom:15px;
-    background:#0b0b0b;
-}
+.project { border:1px solid #222; padding:15px; margin-bottom:15px; background:#0b0b0b; }
 
 /* ===== BACK BUTTON ===== */
-.back {
-    margin-top:30px;
-}
-.back button {
-    background:none;
-    border:1px solid #444;
-    color:#888;
-    padding:10px 16px;
-    cursor:pointer;
-}
+.back { margin-top:30px; }
+.back button { background:none; border:1px solid #444; color:#888; padding:10px 16px; cursor:pointer; }
 body.phone-mode .back button { padding:14px 20px; font-size:18px; }
 
 /* ===== HIDDEN ===== */
@@ -132,47 +79,23 @@ body.phone-mode .back button { padding:14px 20px; font-size:18px; }
 footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 
 /* ===== ADMIN PANEL ===== */
-#admin-panel {
-    background:#111;
-    border:1px solid #00ff9c;
-    padding:20px;
-    margin-top:15px;
-}
+#admin-panel { background:#111; border:1px solid #00ff9c; padding:20px; margin-top:15px; }
 #admin-panel h2 { color:#00ff9c; margin-bottom:15px; }
-#admin-panel table {
-    width:100%;
-    border-collapse:collapse;
-    margin-bottom:15px;
-}
-#admin-panel th, #admin-panel td {
-    border:1px solid #00ff9c;
-    padding:6px;
-    text-align:left;
-    font-size:12px;
-}
+#admin-panel table { width:100%; border-collapse:collapse; margin-bottom:15px; }
+#admin-panel th, #admin-panel td { border:1px solid #00ff9c; padding:6px; text-align:left; font-size:12px; }
 #admin-panel th { background:#000; }
 #admin-panel input { padding:6px; margin:6px 0; background:#000; border:1px solid #00ff9c; color:#0f0; }
 #admin-login-btn { background:#000; border:1px solid #00ff9c; color:#0f0; padding:6px 10px; cursor:pointer; }
 #admin-login-btn:hover { background:#0f0; color:#000; }
 
 /* ===== CHAT ===== */
-#chat-box {
-    border:1px solid #00ff9c;
-    background:#0b0b0b;
-    padding:10px;
-    max-height:300px;
-    overflow-y:auto;
-    margin-bottom:10px;
-}
-#chat-input { width:calc(100% - 100px); padding:6px; background:#000; border:1px solid #00ff9c; color:#fff; }
+#chat-box { border:1px solid #00ff9c; padding:10px; height:200px; overflow-y:auto; background:#111; margin-bottom:10px; }
+#chat-input { width:calc(100% - 80px); padding:6px; background:#000; border:1px solid #00ff9c; color:#fff; }
 #chat-send { padding:6px 10px; background:#000; border:1px solid #00ff9c; color:#0f0; cursor:pointer; }
-.tag-Moderator { color:orange; font-weight:bold; }
-.tag-Admin { color:#00ff00; font-weight:bold; }
-.tag-Protection { color:black; font-weight:bold; }
-.tag-Tester { color:#00cfff; font-weight:bold; }
-.tag-Member { color:white; font-weight:bold; }
+#chat-send:hover { background:#0f0; color:#000; }
 </style>
 </head>
+
 <body class="pc-mode">
 
 <div class="bg-binary">
@@ -180,6 +103,7 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 </div>
 
 <div class="container">
+
 <div class="top-bar">
     <div>> ACCESS GRANTED</div>
     <div class="mode-switch">
@@ -230,9 +154,7 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 <h2>> PROJECTS</h2>
 <div class="project">
 <b>SSB2 – OctoHook</b><br><br>
-<a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">
-Download Mod
-</a>
+<a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">Download Mod</a>
 </div>
 <div class="back">
 <button onclick="showSection('home')">← BACK TO HOME</button>
@@ -249,10 +171,10 @@ Download Mod
 <!-- CHAT -->
 <div id="chat" class="hidden section">
 <h2>> CHAT</h2>
-<input type="text" id="chat-username" placeholder="Kullanıcı adınız">
 <div id="chat-box"></div>
-<input type="text" id="chat-input" placeholder="Mesajınızı yazın">
-<button id="chat-send">Gönder</button>
+<input type="text" id="chat-username" placeholder="Username">
+<input type="text" id="chat-input" placeholder="Mesaj yaz...">
+<button id="chat-send">SEND</button>
 </div>
 
 <!-- ADMIN PANEL -->
@@ -264,28 +186,23 @@ Download Mod
 
 <div id="admin-panel" class="hidden">
 <h2>Visitor Logs</h2>
-
 <label>Filter by Device:</label>
 <select id="filter-device">
 <option value="all">All</option>
 <option value="PC">PC</option>
 <option value="PHONE">PHONE</option>
 </select>
-
 <label>Search Browser:</label>
 <input type="text" id="search-browser" placeholder="Tarayıcı ara...">
-
 <table>
 <thead>
 <tr><th>Time</th><th>Device</th><th>Browser</th><th>Language</th></tr>
 </thead>
 <tbody id="log-table-body"></tbody>
 </table>
-
 <canvas id="device-chart" height="150"></canvas>
 <p>Active Users (Last 5 min): <span id="active-count">0</span></p>
 </div>
-
 <div class="back">
 <button onclick="showSection('home')">← BACK TO HOME</button>
 </div>
@@ -294,22 +211,19 @@ Download Mod
 <footer>© GAZ TEAM — STATUS: ONLINE</footer>
 </div>
 
-<script>
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc",
-  authDomain: "gazteam.firebaseapp.com",
-  databaseURL: "https://gazteam-default-rtdb.firebaseio.com",
-  projectId: "gazteam",
-  storageBucket: "gazteam.firebasestorage.app",
-  messagingSenderId: "595871641174",
-  appId: "1:595871641174:web:1a2795854b6df5d324d5f7",
-  measurementId: "G-TJ3X3M103X"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+<script type="module">
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
-// Section
+const db = getDatabase();
+
+const userTags = {
+  "yusuf46":["Admin","#00ff00"],
+  "ozgur99":["Moderator","orange"],
+  "protection1":["Protection","black"],
+  "tester123":["Tester","#00cfff"]
+};
+
+// Section göster
 function showSection(id){
     ["home","modding","projects","support","chat","admin"].forEach(s=>{
         document.getElementById(s).classList.add("hidden");
@@ -317,7 +231,7 @@ function showSection(id){
     document.getElementById(id).classList.remove("hidden");
 }
 
-// Language
+// Dil değiştir
 function setLang(lang){
     ["en","tr","pt","ru"].forEach(l=>{
         document.getElementById("text-"+l).classList.add("hidden");
@@ -325,13 +239,13 @@ function setLang(lang){
     document.getElementById("text-"+lang).classList.remove("hidden");
 }
 
-// Mode
+// Mod değiştir
 function setMode(mode){
     document.body.classList.remove("pc-mode","phone-mode");
     document.body.classList.add(mode+"-mode");
 }
 
-// Log visitor
+// Log sistemi
 (function logVisitor(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
     const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -348,7 +262,7 @@ function setMode(mode){
     localStorage.setItem("gaz_logs", JSON.stringify(logs));
 })();
 
-// Admin login
+// Admin login ve panel
 document.getElementById("admin-login-btn").addEventListener("click", function(){
     const pwd = document.getElementById("admin-password").value;
     const correctPassword = "gazadmin";
@@ -361,7 +275,7 @@ document.getElementById("admin-login-btn").addEventListener("click", function(){
     } else { alert("Şifre yanlış!"); }
 });
 
-// Render logs
+// Logları tabloya yazdır
 function renderLogs(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
     const tbody = document.getElementById("log-table-body");
@@ -380,7 +294,7 @@ function renderLogs(){
 document.getElementById("filter-device").addEventListener("change", renderLogs);
 document.getElementById("search-browser").addEventListener("input", renderLogs);
 
-// Chart
+// Grafik
 function renderChart(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
     const pcCount = logs.filter(l=>l.device==="PC").length;
@@ -388,15 +302,12 @@ function renderChart(){
     const ctx = document.getElementById("device-chart").getContext("2d");
     new Chart(ctx,{
         type:"doughnut",
-        data:{
-            labels:["PC","PHONE"],
-            datasets:[{data:[pcCount,phoneCount],backgroundColor:["#00ff9c","#00cfff"]}]
-        },
+        data:{ labels:["PC","PHONE"], datasets:[{data:[pcCount,phoneCount],backgroundColor:["#00ff9c","#00cfff"]}] },
         options:{responsive:true,plugins:{legend:{position:'bottom'}}}
     });
 }
 
-// Active users
+// Aktif kullanıcılar
 function updateActiveUsers(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
     const now = Date.now();
@@ -405,61 +316,45 @@ function updateActiveUsers(){
     setTimeout(updateActiveUsers,60000);
 }
 
-// ===== CHAT SYSTEM =====
-const userTags = {
-    "Moderator":["Moderator", "orange"],
-    "Admin":["Admin","#00ff00"],
-    "Protection":["Protection","black"],
-    "Tester":["Tester","#00cfff"]
-};
-
-function getTag(username){
-    for(const key in userTags){
-        if(userTags[key][0]===username) return key;
-    }
-    return "Member";
-}
-
-function getTagColor(tag){
-    if(tag==="Member") return "white";
-    if(userTags[tag]) return userTags[tag][1];
-    return "white";
-}
-
-// Listen chat
+// Chat sistemi
 const chatBox = document.getElementById("chat-box");
 const chatInput = document.getElementById("chat-input");
 const chatSend = document.getElementById("chat-send");
 const chatUsername = document.getElementById("chat-username");
 
 function renderChat(){
-    db.ref("chat").on("value", snapshot=>{
+    chatBox.innerHTML = "";
+    const chatRef = ref(db,"chat");
+    onValue(chatRef,(snapshot)=>{
         chatBox.innerHTML="";
         snapshot.forEach(child=>{
             const msg = child.val();
-            const tag = msg.tag || "Member";
-            const color = getTagColor(tag);
-            const div = document.createElement("div");
-            div.innerHTML=`<span style="color:${color};">[${tag}] ${msg.username}</span>: ${msg.text}`;
-            chatBox.appendChild(div);
+            let tag = "Member";
+            let color = "white";
+            if(userTags[msg.username]){
+                tag = userTags[msg.username][0];
+                color = userTags[msg.username][1];
+            }
+            const msgEl = document.createElement("div");
+            msgEl.innerHTML=`<span style="color:${color}">[${tag}] ${msg.username}:</span> ${msg.text}`;
+            chatBox.appendChild(msgEl);
             chatBox.scrollTop = chatBox.scrollHeight;
         });
     });
 }
+renderChat();
 
 chatSend.addEventListener("click", ()=>{
     const username = chatUsername.value.trim() || "Anonymous";
     const text = chatInput.value.trim();
     if(!text) return;
-    let tag = "Member";
-    if(userTags[username]) tag = userTags[username][0];
-    const msgObj = {username,text,tag,time:Date.now()};
-    db.ref("chat").push(msgObj);
+    push(ref(db,"chat"),{username,text});
     chatInput.value="";
 });
-
-// Render chat on load
-renderChat();
+chatInput.addEventListener("keypress", e=>{
+    if(e.key === "Enter") chatSend.click();
+});
 </script>
+
 </body>
 </html>
