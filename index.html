@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <title>GAZ TEAM</title>
 
-<!-- Chart.js için -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js"></script>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 /* ===== GENEL ===== */
@@ -156,28 +156,23 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 #admin-login-btn:hover { background:#0f0; color:#000; }
 
 /* ===== CHAT ===== */
-#chat-section {
-    background:#111;
-    border:1px solid #00cfff;
-    padding:15px;
-    margin-top:20px;
-}
-#chat-messages {
-    max-height:200px;
-    overflow-y:auto;
-    border:1px solid #00cfff;
+#chat-box {
+    border:1px solid #00ff9c;
+    background:#0b0b0b;
     padding:10px;
+    max-height:300px;
+    overflow-y:auto;
     margin-bottom:10px;
-    background:#000;
-    color:#0f0;
-    font-size:12px;
 }
-#chat-input { width:70%; padding:6px; background:#000; border:1px solid #00cfff; color:#0f0; }
-#chat-send { padding:6px 10px; background:#000; border:1px solid #00cfff; color:#0f0; cursor:pointer; }
-#chat-send:hover { background:#0f0; color:#000; }
+#chat-input { width:calc(100% - 100px); padding:6px; background:#000; border:1px solid #00ff9c; color:#fff; }
+#chat-send { padding:6px 10px; background:#000; border:1px solid #00ff9c; color:#0f0; cursor:pointer; }
+.tag-Moderator { color:orange; font-weight:bold; }
+.tag-Admin { color:#00ff00; font-weight:bold; }
+.tag-Protection { color:black; font-weight:bold; }
+.tag-Tester { color:#00cfff; font-weight:bold; }
+.tag-Member { color:white; font-weight:bold; }
 </style>
 </head>
-
 <body class="pc-mode">
 
 <div class="bg-binary">
@@ -185,7 +180,6 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 </div>
 
 <div class="container">
-
 <div class="top-bar">
     <div>> ACCESS GRANTED</div>
     <div class="mode-switch">
@@ -254,15 +248,11 @@ Download Mod
 
 <!-- CHAT -->
 <div id="chat" class="hidden section">
-<h2>> GAZ TEAM CHAT</h2>
-<div id="chat-section">
-    <div id="chat-messages"></div>
-    <input type="text" id="chat-input" placeholder="Mesaj yaz...">
-    <button id="chat-send">SEND</button>
-</div>
-<div class="back">
-<button onclick="showSection('home')">← BACK TO HOME</button>
-</div>
+<h2>> CHAT</h2>
+<input type="text" id="chat-username" placeholder="Kullanıcı adınız">
+<div id="chat-box"></div>
+<input type="text" id="chat-input" placeholder="Mesajınızı yazın">
+<button id="chat-send">Gönder</button>
 </div>
 
 <!-- ADMIN PANEL -->
@@ -305,7 +295,21 @@ Download Mod
 </div>
 
 <script>
-// Section göster
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc",
+  authDomain: "gazteam.firebaseapp.com",
+  databaseURL: "https://gazteam-default-rtdb.firebaseio.com",
+  projectId: "gazteam",
+  storageBucket: "gazteam.firebasestorage.app",
+  messagingSenderId: "595871641174",
+  appId: "1:595871641174:web:1a2795854b6df5d324d5f7",
+  measurementId: "G-TJ3X3M103X"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Section
 function showSection(id){
     ["home","modding","projects","support","chat","admin"].forEach(s=>{
         document.getElementById(s).classList.add("hidden");
@@ -313,7 +317,7 @@ function showSection(id){
     document.getElementById(id).classList.remove("hidden");
 }
 
-// Dil değiştir
+// Language
 function setLang(lang){
     ["en","tr","pt","ru"].forEach(l=>{
         document.getElementById("text-"+l).classList.add("hidden");
@@ -321,13 +325,13 @@ function setLang(lang){
     document.getElementById("text-"+lang).classList.remove("hidden");
 }
 
-// Mod değiştir
+// Mode
 function setMode(mode){
     document.body.classList.remove("pc-mode","phone-mode");
     document.body.classList.add(mode+"-mode");
 }
 
-// Log sistemi
+// Log visitor
 (function logVisitor(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs") || "[]");
     const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -344,7 +348,7 @@ function setMode(mode){
     localStorage.setItem("gaz_logs", JSON.stringify(logs));
 })();
 
-// Admin login ve panel
+// Admin login
 document.getElementById("admin-login-btn").addEventListener("click", function(){
     const pwd = document.getElementById("admin-password").value;
     const correctPassword = "gazadmin";
@@ -357,7 +361,7 @@ document.getElementById("admin-login-btn").addEventListener("click", function(){
     } else { alert("Şifre yanlış!"); }
 });
 
-// Logları tabloya yazdır
+// Render logs
 function renderLogs(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
     const tbody = document.getElementById("log-table-body");
@@ -376,7 +380,7 @@ function renderLogs(){
 document.getElementById("filter-device").addEventListener("change", renderLogs);
 document.getElementById("search-browser").addEventListener("input", renderLogs);
 
-// Grafik
+// Chart
 function renderChart(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
     const pcCount = logs.filter(l=>l.device==="PC").length;
@@ -392,7 +396,7 @@ function renderChart(){
     });
 }
 
-// Aktif kullanıcılar (son 5 dakika)
+// Active users
 function updateActiveUsers(){
     const logs = JSON.parse(localStorage.getItem("gaz_logs")||"[]");
     const now = Date.now();
@@ -401,48 +405,61 @@ function updateActiveUsers(){
     setTimeout(updateActiveUsers,60000);
 }
 
-// ===== FIREBASE CONFIG & CHAT =====
-const firebaseConfig = {
-  apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc",
-  authDomain: "gazteam.firebaseapp.com",
-  databaseURL: "https://gazteam-default-rtdb.firebaseio.com",
-  projectId: "gazteam",
-  storageBucket: "gazteam.firebasestorage.app",
-  messagingSenderId: "595871641174",
-  appId: "1:595871641174:web:1a2795854b6df5d324d5f7",
-  measurementId: "G-TJ3X3M103X"
+// ===== CHAT SYSTEM =====
+const userTags = {
+    "Moderator":["Moderator", "orange"],
+    "Admin":["Admin","#00ff00"],
+    "Protection":["Protection","black"],
+    "Tester":["Tester","#00cfff"]
 };
 
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+function getTag(username){
+    for(const key in userTags){
+        if(userTags[key][0]===username) return key;
+    }
+    return "Member";
+}
 
-// Mesaj gönder
-document.getElementById("chat-send").addEventListener("click", function(){
-    const msgInput = document.getElementById("chat-input");
-    const msg = msgInput.value;
-    if(msg.trim()==="") return;
+function getTagColor(tag){
+    if(tag==="Member") return "white";
+    if(userTags[tag]) return userTags[tag][1];
+    return "white";
+}
 
-    const newMsgRef = database.ref("messages").push();
-    newMsgRef.set({
-        text: msg,
-        time: new Date().toLocaleString()
+// Listen chat
+const chatBox = document.getElementById("chat-box");
+const chatInput = document.getElementById("chat-input");
+const chatSend = document.getElementById("chat-send");
+const chatUsername = document.getElementById("chat-username");
+
+function renderChat(){
+    db.ref("chat").on("value", snapshot=>{
+        chatBox.innerHTML="";
+        snapshot.forEach(child=>{
+            const msg = child.val();
+            const tag = msg.tag || "Member";
+            const color = getTagColor(tag);
+            const div = document.createElement("div");
+            div.innerHTML=`<span style="color:${color};">[${tag}] ${msg.username}</span>: ${msg.text}`;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
     });
+}
 
-    msgInput.value="";
+chatSend.addEventListener("click", ()=>{
+    const username = chatUsername.value.trim() || "Anonymous";
+    const text = chatInput.value.trim();
+    if(!text) return;
+    let tag = "Member";
+    if(userTags[username]) tag = userTags[username][0];
+    const msgObj = {username,text,tag,time:Date.now()};
+    db.ref("chat").push(msgObj);
+    chatInput.value="";
 });
 
-// Mesajları göster
-const messagesContainer = document.getElementById("chat-messages");
-database.ref("messages").on("value", snapshot=>{
-    messagesContainer.innerHTML="";
-    snapshot.forEach(childSnap=>{
-        const msgData = childSnap.val();
-        const div = document.createElement("div");
-        div.textContent = `[${msgData.time}] ${msgData.text}`;
-        messagesContainer.appendChild(div);
-    });
-});
+// Render chat on load
+renderChat();
 </script>
-
 </body>
 </html>
