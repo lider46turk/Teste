@@ -48,6 +48,14 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
 .section { border-left:3px solid #00ff9c; padding-left:20px; margin-bottom:40px; }
 .hidden { display:none; }
 
+/* PROJECT */
+.project {
+    border:1px solid #222;
+    padding:15px;
+    background:#0b0b0b;
+}
+
+/* CHAT */
 #chat-section {
     background:#111;
     border:1px solid #00cfff;
@@ -75,18 +83,28 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
     color:#0f0;
     cursor:pointer;
 }
-.project-box{
+
+/* LIVE STATUS */
+.status-panel{
     border:1px solid #00ff9c;
     padding:15px;
-    margin-top:15px;
+    margin-top:25px;
+    background:#0b0b0b;
 }
-.project-box a{
+.status-panel h3{
+    margin:0 0 10px 0;
     color:#00ff9c;
-    text-decoration:none;
 }
-.project-box a:hover{
-    text-decoration:underline;
+.status-item{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    border-bottom:1px dashed #222;
+    font-size:13px;
 }
+.status-item:last-child{border-bottom:none;}
+.on{ color:#00ff9c; }
+.off{ color:#ff4444; }
 </style>
 </head>
 
@@ -116,18 +134,34 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
 <div id="home" class="section">
 <h2>> WHO WE ARE</h2>
 <pre>GAZ TEAM underground modding collective. Active since 2021.</pre>
+
+<div class="status-panel">
+    <h3>> LIVE STATUS</h3>
+    <div class="status-item">
+        <span>CHAT</span>
+        <span class="on">ONLINE</span>
+    </div>
+    <div class="status-item">
+        <span>LATEST MOD</span>
+        <span class="on">OctoHook v1.9.41</span>
+    </div>
+    <div class="status-item">
+        <span>MESSAGES</span>
+        <span id="msg-count">0</span>
+    </div>
+    <div class="status-item">
+        <span>SYSTEM</span>
+        <span class="on">STABLE</span>
+    </div>
+</div>
 </div>
 
 <div id="projects" class="hidden section">
 <h2>> PROJECTS</h2>
-
-<div class="project-box">
-<b>Ssb2 ModMenu - GazTeam x octohook</b><br><br>
-<a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">
-Download APK
-</a>
+<div class="project">
+<b>SSB2 – OctoHook</b><br><br>
+<a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">Download Mod</a>
 </div>
-
 </div>
 
 <div id="support" class="hidden section">
@@ -148,9 +182,10 @@ Download APK
 </div>
 
 <script>
-// === CLEARALL AÇ / KAPA ===
+// CLEARALL
 const CLEARALL_ENABLED = false;
 
+// sections
 function showSection(id){
 ["home","projects","support","chat"].forEach(s=>document.getElementById(s).classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
@@ -207,6 +242,7 @@ m.value="";
 
 db.ref("messages").on("value",snap=>{
 box.innerHTML="";
+document.getElementById("msg-count").innerText=snap.numChildren();
 snap.forEach(c=>{
 const d=c.val();
 const div=document.createElement("div");
