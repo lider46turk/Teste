@@ -146,7 +146,7 @@ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; }
 <h2>> GAZ TEAM CHAT</h2>
 
 <div id="chat-section">
-<input id="chat-username" placeholder="İsminizi girin">
+<input id="chat-username" placeholder="İsminizi girin (max 12)">
 <div id="chat-messages"></div>
 <input id="chat-input" placeholder="Mesaj yaz...">
 <button id="chat-send">SEND</button>
@@ -197,13 +197,23 @@ const s=document.getElementById("chat-send");
 const box=document.getElementById("chat-messages");
 
 s.onclick=()=>{
-if(!u.value||!m.value)return;
-db.ref("messages").push({
-user:u.value,
-msg:m.value,
-time:new Date().toLocaleTimeString()
-});
-m.value="";
+    const username = u.value.trim();
+    const message = m.value.trim();
+
+    if(!username || !message) return;
+
+    if(username.length > 12){
+        alert("İsim en fazla 12 karakter olabilir!");
+        return;
+    }
+
+    db.ref("messages").push({
+        user: username,
+        msg: message,
+        time: new Date().toLocaleTimeString()
+    });
+
+    m.value="";
 };
 
 db.ref("messages").on("value",snap=>{
