@@ -108,16 +108,16 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
 
 <div id="projects" class="hidden section">
 <h2>> PROJECTS</h2>
-<b>SSB2 – OctoHook</b>
+<b>SSB2 ModMenu– GAZ TEAM / OctoHook</b>
 </div>
 
 <div id="support" class="hidden section">
 <h2>> SUPPORT</h2>
-<p>Destek olmak isteyenler için.</p>
+<p>you want support us?.</p>
 </div>
 
 <div id="chat" class="hidden section">
-<h2>> GAZ TEAM CHAT</h2>
+<h2>> GAZ TEAM CHAT = )</h2>
 <div id="chat-section">
 <input id="chat-username" placeholder="İsminizi girin (max 12)">
 <div id="chat-messages"></div>
@@ -170,7 +170,7 @@ s.onclick=()=>{
 const username=u.value.trim();
 const message=m.value.trim();
 if(!username||!message)return;
-if(username.length>12){alert("İsim en fazla 12 karakter");return;}
+if(username.length>12){alert("Set Nickname [12 max]");return;}
 
 if(message==="/clearall" && CLEARALL_ENABLED){
 db.ref("messages").remove();
