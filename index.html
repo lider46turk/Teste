@@ -1,1 +1,293 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>GAZ TEAM</title> <!-- Chart.js --> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Firebase SDK --> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script> <style> body { background:#050505; color:#e0e0e0; font-family:Courier New, monospace; margin:0; overflow-x:hidden; } body.pc-mode { font-size:16px; } body.phone-mode { font-size:18px; } .container { max-width:900px; margin:auto; padding:40px 20px; position:relative; z-index:2; } body.phone-mode .container { max-width:100%; padding:30px 15px; } /* MATRIX / BINARY BACKGROUND */ #matrix-canvas { position:fixed; inset:0; z-index:1; pointer-events:none; } /* TOP BAR */ .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; } .mode-switch button { background:#000; border:1px solid #00ff9c; color:#00ff9c; padding:6px 10px; cursor:pointer; margin-left:6px; font-family:inherit; } .mode-switch button:hover { background:#00ff9c; color:#000; } /* HEADINGS */ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; margin-bottom:5px; } body.phone-mode h1 { font-size:28px; } .subtitle { text-align:center; color:#888; margin-bottom:30px; } /* MENU */ .menu { text-align:center; margin:30px 0; } .menu button { background:#000; color:#00ff9c; border:1px solid #00ff9c; padding:10px 18px; margin:6px; cursor:pointer; font-family:inherit; } body.phone-mode .menu button { padding:14px 22px; font-size:18px; } .menu button:hover { background:#00ff9c; color:#000; } /* SECTION */ .section { border-left:3px solid #00ff9c; padding-left:20px; margin-bottom:40px; } body.phone-mode .section { border-left:2px solid #00ff9c; padding-left:14px; } .hidden { display:none; } /* PROJECTS */ .project { border:1px solid #222; padding:15px; margin-bottom:15px; background:#0b0b0b; } /* BACK BUTTON */ .back { margin-top:30px; } .back button { background:none; border:1px solid #444; color:#888; padding:10px 16px; cursor:pointer; } body.phone-mode .back button { padding:14px 20px; font-size:18px; } /* CHAT */ #chat-section { background:#111; border:1px solid #00cfff; padding:15px; margin-top:20px; } #chat-messages { max-height:200px; overflow-y:auto; border:1px solid #00cfff; padding:10px; margin-bottom:10px; background:#000; color:#0f0; font-size:12px; } #chat-username { width:30%; padding:6px; background:#000; border:1px solid #00cfff; color:#0f0; margin-bottom:5px; } #chat-input { width:60%; padding:6px; background:#000; border:1px solid #00cfff; color:#0f0; } #chat-send { padding:6px 10px; background:#000; border:1px solid #00cfff; color:#0f0; cursor:pointer; } #chat-send:hover { background:#0f0; color:#000; } /* FOOTER */ footer { text-align:center; color:#555; margin-top:60px; font-size:13px; } </style> </head> <body class="pc-mode"> <canvas id="matrix-canvas"></canvas> <div class="container"> <div class="top-bar"> <div>> ACCESS GRANTED</div> <div class="mode-switch"> <button onclick="setMode('pc')">💻 PC</button> <button onclick="setMode('phone')">📱 PHONE</button> </div> </div> <h1>GAZ TEAM</h1> <div class="subtitle">underground digital group</div> <div class="menu"> <button onclick="showSection('home')">HOME</button> <button onclick="showSection('projects')">PROJECTS</button> <button onclick="showSection('support')">SUPPORT</button> <button onclick="showSection('chat')">CHAT</button> </div> <!-- HOME --> <div id="home" class="section"> <h2>> WHO WE ARE</h2> <pre>GAZ TEAM underground modding collective. Active since 2021.</pre> </div> <!-- PROJECTS --> <div id="projects" class="hidden section"> <h2>> PROJECTS</h2> <div class="project"> <b>SSB2 – OctoHook</b><br><br> <a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">Download Mod</a> </div> <div class="back"> <button onclick="showSection('home')">← BACK TO HOME</button> </div> </div> <!-- SUPPORT --> <div id="support" class="hidden section"> <h2>> SUPPORT GAZ TEAM</h2> <p>Destek olmak isteyenler için adresler:</p> <button onclick="location.href='support.html'">GO TO SUPPORT PAGE →</button> </div> <!-- CHAT --> <div id="chat" class="hidden section"> <h2>> GAZ TEAM CHAT</h2> <div id="chat-section"> <input type="text" id="chat-username" placeholder="İsminizi girin"> <div id="chat-messages"></div> <input type="text" id="chat-input" placeholder="Mesaj yaz..."> <button id="chat-send">SEND</button> </div> <div class="back"> <button onclick="showSection('home')">← BACK TO HOME</button> </div> </div> <footer>© GAZ TEAM — STATUS: ONLINE</footer> </div> <script> // Section göster function showSection(id){ ["home","projects","support","chat"].forEach(s=>document.getElementById(s).classList.add("hidden")); document.getElementById(id).classList.remove("hidden"); } // Mode switch function setMode(mode){ document.body.classList.remove("pc-mode","phone-mode"); document.body.classList.add(mode+"-mode"); } // ===== MATRIX ===== const canvas = document.getElementById("matrix-canvas"); const ctx = canvas.getContext("2d"); let w = canvas.width = window.innerWidth; let h = canvas.height = window.innerHeight; let cols = Math.floor(w/20); let ypos = Array(cols).fill(0); function drawMatrix(){ ctx.fillStyle="rgba(5,5,5,0.08)"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#00ff9c"; ctx.font="15pt monospace"; ypos.forEach((y,i)=>{ const text = String.fromCharCode(33+Math.random()*94); ctx.fillText(text,i*20,y); ypos[i] = y>h+Math.random()*1000 ? 0 : y+20; }); } setInterval(drawMatrix,50); window.addEventListener("resize",()=>{ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; cols=Math.floor(w/20); ypos=Array(cols).fill(0); }); // ===== FIREBASE CHAT ===== const firebaseConfig = { apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc", authDomain: "gazteam.firebaseapp.com", databaseURL: "https://gazteam-default-rtdb.firebaseio.com", projectId: "gazteam", storageBucket: "gazteam.firebasestorage.app", messagingSenderId: "595871641174", appId: "1:595871641174:web:1a2795854b6df5d324d5f7", measurementId: "G-TJ3X3M103X" }; firebase.initializeApp(firebaseConfig); const database = firebase.database(); const chatUsername = document.getElementById("chat-username"); const chatInput = document.getElementById("chat-input"); const chatSend = document.getElementById("chat-send"); const chatMessages = document.getElementById("chat-messages"); chatSend.addEventListener("click", ()=>{ const user = chatUsername.value.trim(); const msg = chatInput.value.trim(); if(!user || !msg) return alert("İsim ve mesaj girin!"); database.ref("messages").push({user,msg,time:new Date().toLocaleTimeString()}); chatInput.value=""; }); database.ref("messages").on("value", snapshot=>{ chatMessages.innerHTML=""; snapshot.forEach(child=>{ const data = child.val(); const div = document.createElement("div"); div.textContent = [${data.time}] ${data.user}: ${data.msg}; chatMessages.appendChild(div); }); chatMessages.scrollTop = chatMessages.scrollHeight; }); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GAZ TEAM</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+body {
+    background:#050505;
+    color:#e0e0e0;
+    font-family:Courier New, monospace;
+    margin:0;
+    overflow-x:hidden;
+}
+body.pc-mode { font-size:16px; }
+body.phone-mode { font-size:18px; }
+
+.container {
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+    position:relative;
+    z-index:2;
+}
+
+body.phone-mode .container {
+    max-width:100%;
+    padding:30px 15px;
+}
+
+/* MATRIX */
+#matrix-canvas {
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+}
+
+/* TOP BAR */
+.top-bar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.mode-switch button {
+    background:#000;
+    border:1px solid #00ff9c;
+    color:#00ff9c;
+    padding:6px 10px;
+    cursor:pointer;
+    margin-left:6px;
+    font-family:inherit;
+}
+
+.mode-switch button:hover {
+    background:#00ff9c;
+    color:#000;
+}
+
+/* HEADINGS */
+h1 {
+    color:#00ff9c;
+    letter-spacing:4px;
+    text-align:center;
+    margin-bottom:5px;
+}
+
+body.phone-mode h1 { font-size:28px; }
+
+.subtitle {
+    text-align:center;
+    color:#888;
+    margin-bottom:30px;
+}
+
+/* MENU */
+.menu {
+    text-align:center;
+    margin:30px 0;
+}
+
+.menu button {
+    background:#000;
+    color:#00ff9c;
+    border:1px solid #00ff9c;
+    padding:10px 18px;
+    margin:6px;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.menu button:hover {
+    background:#00ff9c;
+    color:#000;
+}
+
+/* SECTION */
+.section {
+    border-left:3px solid #00ff9c;
+    padding-left:20px;
+    margin-bottom:40px;
+}
+
+.hidden { display:none; }
+
+/* PROJECT */
+.project {
+    border:1px solid #222;
+    padding:15px;
+    margin-bottom:15px;
+    background:#0b0b0b;
+}
+
+/* CHAT */
+#chat-section {
+    background:#111;
+    border:1px solid #00cfff;
+    padding:15px;
+    margin-top:20px;
+}
+
+#chat-messages {
+    max-height:200px;
+    overflow-y:auto;
+    border:1px solid #00cfff;
+    padding:10px;
+    margin-bottom:10px;
+    background:#000;
+    color:#0f0;
+    font-size:12px;
+}
+
+#chat-username,
+#chat-input {
+    padding:6px;
+    background:#000;
+    border:1px solid #00cfff;
+    color:#0f0;
+}
+
+#chat-username { width:30%; }
+#chat-input { width:60%; }
+
+#chat-send {
+    padding:6px 10px;
+    background:#000;
+    border:1px solid #00cfff;
+    color:#0f0;
+    cursor:pointer;
+}
+
+#chat-send:hover {
+    background:#0f0;
+    color:#000;
+}
+
+footer {
+    text-align:center;
+    color:#555;
+    margin-top:60px;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body class="pc-mode">
+
+<canvas id="matrix-canvas"></canvas>
+
+<div class="container">
+
+<div class="top-bar">
+    <div>> ACCESS GRANTED</div>
+    <div class="mode-switch">
+        <button onclick="setMode('pc')">💻 PC</button>
+        <button onclick="setMode('phone')">📱 PHONE</button>
+    </div>
+</div>
+
+<h1>GAZ TEAM</h1>
+<div class="subtitle">underground digital group</div>
+
+<div class="menu">
+    <button onclick="showSection('home')">HOME</button>
+    <button onclick="showSection('projects')">PROJECTS</button>
+    <button onclick="showSection('support')">SUPPORT</button>
+    <button onclick="showSection('chat')">CHAT</button>
+</div>
+
+<div id="home" class="section">
+<h2>> WHO WE ARE</h2>
+<pre>GAZ TEAM underground modding collective. Active since 2021.</pre>
+</div>
+
+<div id="projects" class="hidden section">
+<h2>> PROJECTS</h2>
+<div class="project">
+<b>SSB2 – OctoHook</b><br><br>
+<a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">Download Mod</a>
+</div>
+</div>
+
+<div id="support" class="hidden section">
+<h2>> SUPPORT GAZ TEAM</h2>
+<button onclick="location.href='support.html'">GO TO SUPPORT PAGE →</button>
+</div>
+
+<div id="chat" class="hidden section">
+<h2>> GAZ TEAM CHAT</h2>
+<div id="chat-section">
+    <input id="chat-username" placeholder="İsminizi girin">
+    <div id="chat-messages"></div>
+    <input id="chat-input" placeholder="Mesaj yaz...">
+    <button id="chat-send">SEND</button>
+</div>
+</div>
+
+<footer>© GAZ TEAM — STATUS: ONLINE</footer>
+</div>
+
+<script>
+function showSection(id){
+    ["home","projects","support","chat"].forEach(s=>{
+        document.getElementById(s).classList.add("hidden");
+    });
+    document.getElementById(id).classList.remove("hidden");
+}
+
+function setMode(mode){
+    document.body.classList.remove("pc-mode","phone-mode");
+    document.body.classList.add(mode+"-mode");
+}
+
+/* MATRIX */
+const canvas = document.getElementById("matrix-canvas");
+const ctx = canvas.getContext("2d");
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
+let cols = Math.floor(w/20);
+let ypos = Array(cols).fill(0);
+
+setInterval(()=>{
+    ctx.fillStyle="rgba(5,5,5,0.08)";
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle="#00ff9c";
+    ctx.font="15pt monospace";
+    ypos.forEach((y,i)=>{
+        const text = String.fromCharCode(33+Math.random()*94);
+        ctx.fillText(text,i*20,y);
+        ypos[i] = y>h ? 0 : y+20;
+    });
+},50);
+
+/* FIREBASE CHAT */
+firebase.initializeApp({
+  apiKey: "AIzaSyBNv4kcJ2imTrGtpWbsiHlNbZael1_0XXc",
+  databaseURL: "https://gazteam-default-rtdb.firebaseio.com"
+});
+
+const db = firebase.database();
+const chatMessages = document.getElementById("chat-messages");
+
+document.getElementById("chat-send").onclick = ()=>{
+    const user = document.getElementById("chat-username").value.trim();
+    const msg = document.getElementById("chat-input").value.trim();
+    if(!user || !msg) return alert("İsim ve mesaj girin!");
+    db.ref("messages").push({user,msg,time:new Date().toLocaleTimeString()});
+    document.getElementById("chat-input").value="";
+};
+
+db.ref("messages").on("value", snap=>{
+    chatMessages.innerHTML="";
+    snap.forEach(c=>{
+        const d = c.val();
+        const div = document.createElement("div");
+        div.textContent = `[${d.time}] ${d.user}: ${d.msg}`;
+        chatMessages.appendChild(div);
+    });
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+</script>
+
+</body>
+</html>
