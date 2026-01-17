@@ -75,6 +75,18 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
     color:#0f0;
     cursor:pointer;
 }
+.project-box{
+    border:1px solid #00ff9c;
+    padding:15px;
+    margin-top:15px;
+}
+.project-box a{
+    color:#00ff9c;
+    text-decoration:none;
+}
+.project-box a:hover{
+    text-decoration:underline;
+}
 </style>
 </head>
 
@@ -108,7 +120,14 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
 
 <div id="projects" class="hidden section">
 <h2>> PROJECTS</h2>
-<b>SSB2 ModMenu– GAZ TEAM / OctoHook</b>
+
+<div class="project-box">
+<b>SSB2 – OctoHook (GAZ TEAM)</b><br><br>
+<a href="https://apkadmin.com/vlf4p3tecktz/GazTeam_octohook1.9.41.apk.html" target="_blank">
+Download APK
+</a>
+</div>
+
 </div>
 
 <div id="support" class="hidden section">
@@ -130,7 +149,7 @@ h1 { color:#00ff9c; letter-spacing:4px; text-align:center; }
 
 <script>
 // === CLEARALL AÇ / KAPA ===
-const CLEARALL_ENABLED = false; // false yaparsan tamamen kapanır
+const CLEARALL_ENABLED = false;
 
 function showSection(id){
 ["home","projects","support","chat"].forEach(s=>document.getElementById(s).classList.add("hidden"));
